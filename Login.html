@@ -263,6 +263,8 @@
           // เปลี่ยนจาก currentUser เป็น loggedInUser
           localStorage.setItem("loggedInUser", user.username); // ใช้ชื่อนี้ให้ตรงกับหน้าเกม
 
+          sessionStorage.removeItem('hasSeenWelcome')
+
           setTimeout(() => {
             window.location.href = "./Home.html" // ไปหน้าหลัก
           }, 800);
