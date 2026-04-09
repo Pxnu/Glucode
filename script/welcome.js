@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             welcomeOverlay.classList.add("hide");
             sessionStorage.setItem("hasSeenWelcome", "true"); 
-        }, 2500);
+        }, 800);
     } else {
         // ถ้าเคยดูแล้ว ซ่อนทันที
         welcomeOverlay.style.display = "none";

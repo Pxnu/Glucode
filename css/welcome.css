@@ -12,7 +12,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.8s ease-out, visibility 0.8s ease-out; 
+    /* 1. ปรับเวลาตอนจางหายให้ไวขึ้น (จาก 0.8s เหลือ 0.5s) */
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out; 
 }
 
 .welcome-content {
@@ -20,7 +21,8 @@
     color: #fff;
     opacity: 0;
     transform: translateY(30px);
-    animation: fadeInUp 0.8s forwards 0.3s; 
+    /* 2. ปรับแอนิเมชันเด้งขึ้นให้ไวขึ้น (ใช้เวลา 0.5s และหน่วงแค่ 0.1s ก่อนเริ่ม) */
+    animation: fadeInUp 0.5s forwards 0.1s; 
 }
 
 .welcome-content h1 {
