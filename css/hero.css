@@ -1,0 +1,58 @@
+/* =========================================
+   Hero Section
+========================================= */
+.Hero .container {
+    max-width: 1440px;
+    margin: 4rem auto;
+    padding: 2.25rem;
+}
+
+.Hero-content {
+    margin: 10rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Left Content */
+.left-content {
+    width: 100%;
+    max-width: 730px;
+}
+
+.left-content .header {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: var(--text);
+}
+
+.left-content .sub-header {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 450px;
+    color: var(--text);
+}
+
+/* Right Content */
+.right-content {
+    position: relative;
+    width: 100%;
+}
+
+.right-content .box-logo {
+    position: absolute;
+    background-color: var(--hover);
+    padding: 1.5rem;
+    width: 450px;
+    left: 506px;
+    box-shadow: 0 4px 4px var(--subtext);
+}
+
+.right-content h1 {
+    color: var(--bg);
+    font-size: 3.5rem;
+    text-align: center;
+}
