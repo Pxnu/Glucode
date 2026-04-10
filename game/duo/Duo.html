@@ -194,7 +194,7 @@
 <body>
     <div class="card">
         <div class="header-row">
-            <h2 id="hintTitle">Glucode</h2>
+            <h2 id="hintTitle">Glucode Say: Welcome <span>user</span>!</h2>
             <div class="right-content">
                 <div class="score-badge" id="scoreDisplay">Score: 0</div>
                 <div class="level-badge" id="levelDisplay">Level: 1 / 10</div>
@@ -213,9 +213,9 @@
             <button class="submit-btn" onclick="checkAnswer()">Submit</button>
         </div>
 
+        
         <div id="resultMessage"></div>
-    </div>
-
+    </div>    
     <script>
 
         let currentUser = localStorage.getItem("loggedInUser");
@@ -428,6 +428,7 @@
 
             // แก้ไข h2 ให้แสดงแค่ "Glucode"
             document.getElementById("hintTitle").textContent = "Glucode ૮₍'˶• . • ⑅ ₎ა";
+            
 
             // แสดงชื่อผู้ใช้พร้อมคะแนน
             document.getElementById("scoreDisplay").textContent = `${currentUser} - Score: ${totalScore}`;
