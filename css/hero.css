@@ -1,29 +1,36 @@
 /* =========================================
    Hero Section
 ========================================= */
+.Hero {
+    flex: 1; /* ดึงพื้นที่ที่เหลือจาก Navbar มาใช้ทั้งหมด */
+    display: flex;
+    align-items: center; /* จัดเนื้อหาให้อยู่กึ่งกลางแนวตั้ง */
+}
+
 .Hero .container {
+    width: 100%;
     max-width: 1440px;
-    margin: 4rem auto;
-    padding: 2.25rem;
+    margin: 0 auto;
+    padding: 0 2.25rem;
 }
 
 .Hero-content {
-    margin: 10rem auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 2rem; /* เพิ่มระยะห่างระหว่างข้อความซ้าย กับ โลโก้ขวา */
 }
 
 /* Left Content */
 .left-content {
-    width: 100%;
+    width: 50%; /* ให้กินพื้นที่ฝั่งซ้ายครึ่งนึง */
     max-width: 730px;
 }
 
 .left-content .header {
     font-size: 1.75rem;
     font-weight: bold;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     color: var(--text);
 }
 
@@ -32,23 +39,27 @@
     font-weight: 600;
     margin-bottom: 2rem;
     width: 100%;
-    max-width: 450px;
+    max-width: 550px;
     color: var(--text);
 }
 
 /* Right Content */
 .right-content {
     position: relative;
-    width: 100%;
+    width: 50%; /* ให้กินพื้นที่ฝั่งขวาครึ่งนึง */
+    display: flex;
+    justify-content: flex-end; /* ดันกล่องโลโก้ไปชิดขวา */
+    align-items: center;
 }
 
 .right-content .box-logo {
     position: absolute;
     background-color: var(--hover);
-    padding: 1.5rem;
-    width: 450px;
-    left: 506px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 450px;
     box-shadow: 0 4px 4px var(--subtext);
+    right: -300px;
 }
 
 .right-content h1 {
