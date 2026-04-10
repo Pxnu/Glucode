@@ -19,7 +19,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. สร้าง Dropdown Menu
+    // 3. สร้าง Dropdown สำหรับ Leader Board ด้วย JS (เพิ่มใหม่)
+    const leaderBoardLink = Array.from(navLinks).find(link => link.textContent.trim() === 'Leader Board');
+    if (leaderBoardLink) {
+        const leaderBoardLi = leaderBoardLink.parentElement;
+        leaderBoardLi.classList.add('user-dropdown-container');
+        
+        // แทนที่ปุ่มเดิมด้วยโครงสร้าง Dropdown
+        leaderBoardLi.innerHTML = `
+            <a href="#" class="user-dropdown-btn">
+                Leader Board <i id="leaderboardIcon" class="fa-solid fa-angle-down"></i>
+            </a>
+            <div class="user-dropdown-menu" style="left: 50%; transform: translateX(-50%); text-align: center;">
+                <a href="./leader board.HTML" class="dropdown-item">Duo</a>
+                <a href="./leader_board_jigsaws.html" class="dropdown-item">Jigsaws</a> 
+            </div>
+        `;
+
+        // เพิ่ม Event เช็ค Hover เพื่อเปลี่ยนไอคอนของ Leader Board
+        const leaderboardIcon = document.getElementById('leaderboardIcon');
+        leaderBoardLi.addEventListener('mouseenter', () => {
+            leaderboardIcon.classList.remove('fa-angle-down');
+            leaderboardIcon.classList.add('fa-angle-up');
+        });
+        leaderBoardLi.addEventListener('mouseleave', () => {
+            leaderboardIcon.classList.remove('fa-angle-up');
+            leaderboardIcon.classList.add('fa-angle-down');
+        });
+    }
+
+    // 4. สร้าง Dropdown Menu ของ User
     const userLi = document.createElement('li');
     userLi.classList.add('user-dropdown-container');
 
@@ -38,9 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="#" id="logoutBtn" class="dropdown-item">Logout</a>
         </div>
     `;
+    
     navList.appendChild(userLi);
 
-    // 4. แทร็ก CSS ลงในหน้าเว็บ
+    // 5. แทร็ก CSS ลงในหน้าเว็บ
     const style = document.createElement('style');
     style.innerHTML = `
         .user-dropdown-btn { font-weight: bold; color: #333; }
@@ -92,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // 5. ระบบเช็ค Hover เพื่อเปลี่ยน Icon ขึ้น/ลง
+    // 6. ระบบเช็ค Hover เพื่อเปลี่ยน Icon ขึ้น/ลง ของ User
     const dropdownIcon = document.getElementById('dropdownIcon');
     userLi.addEventListener('mouseenter', () => {
         dropdownIcon.classList.remove('fa-angle-down');
@@ -103,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dropdownIcon.classList.add('fa-angle-down');
     });
 
-    // 6. อัปเดตข้อมูลในหน้า Home (Hero Greeting)
+    // 7. อัปเดตข้อมูลในหน้า Home (Hero Greeting)
     const heroGreeting = document.querySelector('.header h2 span');
     if(heroGreeting) {
         heroGreeting.textContent = loggedInUser;
