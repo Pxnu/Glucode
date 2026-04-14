@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | Glucode</title>
-
     <link rel="stylesheet" href="./css/global.css">
     <link rel="stylesheet" href="./css/navbar.css">
     <link rel="stylesheet" href="./css/hero.css">
     <link rel="stylesheet" href="./css/welcome.css">
     <link rel="stylesheet" href="./css/overlay.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- welcome -->
     <div id="welcomeOverlay" class="welcome-overlay">
         <div class="welcome-content">
             <h1>Welcome Back, <span id="welcomeName" style="color: #ff7518;">Player</span>! 🎉</h1>
@@ -21,26 +19,24 @@
         </div>
     </div>
 
-    <!-- nav -->
-     <nav>
+    <nav>
         <div class="container">
             <div class="logo">
-                <a href="#"><img src="" alt="Logo"></a>
+                <a href="./Home.html" style="color: var(--text); font-weight: bold; font-size: 2rem;">Glucode</a>
             </div>
             <ul>
               <li><a href="./Home.html">Home</a></li>
               <li><a href="#">Learn</a></li>
               <li><a href="#">Leader Board</a></li>
-              <li><a href="#">Sign Up</a></li>
-              <li><a href="#">Sign In</a></li>
+              <li><a href="./Login.html">Sign Up</a></li>
+              <li><a href="./Login.html">Sign In</a></li>
             </ul>
         </div>
      </nav>
-     <!-- hero-section -->
-      <section class="Hero">
+     
+     <section class="Hero">
         <div class="container">
           <div class="Hero-content">
-            <!-- left -->
             <div class="left-content">
               <div class="header">
                 <h2>Hi "<span style="color: #ff7518;">Guest</span>" Welcome to our website</h2>
@@ -50,8 +46,6 @@
               </div>
               <button type="button" class="Hero-btn" id="LearnBtn">Let Learn</button>
             </div>
-
-            <!-- right -->
              <div class="right-content">
               <div class="box-logo">
                 <h1>Glucode</h1>
@@ -61,21 +55,19 @@
         </div>
       </section>
 
-      <!-- overlay -->
       <div id="choiceOverlay" class="choice-overlay hide">
           <div class="choice-content">
               <span id="closeChoiceBtn" class="close-btn">&times;</span>
-              
-              <h2>Choose Your Game Your Want To Learn</h2>
+              <h2>Choose Your Game</h2>
               <p style="font-size: 1.5rem; margin-top: 1rem;">เลือกเกมที่ต้องการเรียนรู้ได้เลย!</p>
-              
               <div class="choice-options">
-                  <button class="choice-btn-duo">Duo</button>
-                  <button class="choice-btn-jigsaws">Jigsaws</button>
+                  <button class="choice-btn choice-btn-duo">Duo</button>
+                  <button class="choice-btn choice-btn-jigsaws">Jigsaws</button>
               </div>
           </div>
       </div>
 
+      <script src="./script/theme.js"></script>
       <script src="./script/welcome.js"></script>
       <script src="./script/auth.js"></script>
       <script src="./script/ui.js"></script>

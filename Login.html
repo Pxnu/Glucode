@@ -1,309 +1,43 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login & Register</title>
-
-  <style>
-    /* THEME */
-
-    :root {
-      --bg: #ebebeb;
-      --box: #ffffff;
-      --text: #333;
-      --subtext: #888;
-      --btn: #222;
-      --btn-text: #fff;
-    }
-
-    body.dark {
-      --bg: #111;
-      --box: #1a1a1a;
-      --text: #eee;
-      --subtext: #aaa;
-      --btn: #fff;
-      --btn-text: #111;
-    }
-
-    body.halloween {
-      --bg: #1a0f0f;
-      --box: #2b1a1a;
-      --text: #ff7518;
-      --subtext: #ffb347;
-      --btn: #ff7518;
-      --btn-text: #000;
-    }
-
-    body.winter {
-      --bg: #e6f7ff;
-      --box: #ffffff;
-      --text: #0b3d91;
-      --subtext: #5a8fd8;
-      --btn: #0b3d91;
-      --btn-text: #fff;
-    }
-
-    body.easter {
-      --bg: #fff0f6;
-      --box: #ffffff;
-      --text: #ff69b4;
-      --subtext: #ffb6c1;
-      --btn: #ff69b4;
-      --btn-text: #fff;
-    }
-
-    /* LAYOUT */
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      background: var(--bg);
-      transition: 0.3s;
-    }
-
-    .container {
-      text-align: center;
-      width: 100%;
-      max-width: 380px;
-      padding: 20px;
-    }
-
-    h2 {
-      font-size: 32px;
-      margin-bottom: 40px;
-      color: var(--text);
-    }
-
-    /* INPUT */
-    .input-group {
-      margin-bottom: 15px;
-    }
-
-    input {
-      width: 100%;
-      padding: 16px 28px;
-      border-radius: 50px;
-      border: none;
-      background: var(--box);
-      color: var(--text);
-      font-size: 15px;
-    }
-
-    /* BUTTON */
-    .login-btn {
-      width: 140px;
-      padding: 12px;
-      background: var(--btn);
-      color: var(--btn-text);
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      margin-top: 25px;
-    }
-
-    /* TEXT */
-    .footer-text {
-      margin-top: 80px;
-      font-size: 13px;
-      color: var(--subtext);
-    }
-
-    .link {
-      display: block;
-      margin-top: 8px;
-      text-decoration: underline;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    /* THEME SELECT */
-    .theme-select {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      border-radius: 50px;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      width: 80px;
-      padding: 8px;
-      cursor: pointer;
-      background: var(--btn);
-      color: var(--btn-text);
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    #message {
-      margin-top: 20px;
-    }
-  </style>
+  <title>Login & Register | Glucode</title>
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/login.css">
 </head>
-
 <body>
-
-  <select class="theme-select" id="themeSelect" onchange="setTheme(this.value)">
-    <option value="light">Light</option>
-    <option value="dark">Dark</option>
+  <select class="theme-select" id="themeSelect">
+    <option value="light">Light Theme</option>
+    <option value="dark">Dark Theme</option>
     <option value="halloween">Halloween</option>
     <option value="winter">Winter</option>
     <option value="easter">Easter</option>
   </select>
 
-  <div class="container">
-    <h2 id="title">Login</h2>
-
-    <div class="input-group">
-      <input type="text" id="username" placeholder="Username / Email">
-    </div>
-
-    <div class="input-group hidden" id="emailGroup">
-      <input type="email" id="email" placeholder="Email">
-    </div>
-
-    <div class="input-group">
-      <input type="password" id="password" placeholder="Password">
-    </div>
-
-    <button class="login-btn" onclick="handleAction()" id="mainBtn">Login</button>
-
-    <p id="message"></p>
-
-    <div class="footer-text">
-      <span id="toggleText">Don't have an account?</span>
-      <span class="link" onclick="toggleMode()">SIGN UP</span>
+  <div class="login-wrapper">
+    <div class="login-container">
+      <h2 id="title">Login</h2>
+      <div class="input-group">
+        <input type="text" id="username" placeholder="Username / Email">
+      </div>
+      <div class="input-group hidden" id="emailGroup">
+        <input type="email" id="email" placeholder="Email">
+      </div>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password">
+      </div>
+      <button class="login-btn" id="mainBtn">Login</button>
+      <p id="message"></p>
+      <div class="footer-text">
+        <span id="toggleText">Don't have an account?</span>
+        <span class="link" id="toggleModeBtn">SIGN UP</span>
+      </div>
     </div>
   </div>
 
-  <script>
-
-    // THEME
-
-    function setTheme(theme) {
-      document.body.className = "";
-      if (theme !== "light") {
-        document.body.classList.add(theme);
-      }
-      localStorage.setItem("theme", theme);
-    }
-
-    function loadTheme() {
-      let saved = localStorage.getItem("theme") || "light";
-      setTheme(saved);
-      document.getElementById("themeSelect").value = saved;
-    }
-    loadTheme();
-
-
-    // DATA
-
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    let isLogin = true;
-
-
-    // SWITCH MODE
-
-    function toggleMode() {
-      isLogin = !isLogin;
-
-      let title = document.getElementById("title");
-      let btn = document.getElementById("mainBtn");
-      let emailGroup = document.getElementById("emailGroup");
-      let text = document.getElementById("toggleText");
-      let msg = document.getElementById("message");
-
-      if (isLogin) {
-        title.innerText = "Login";
-        btn.innerText = "Login";
-        emailGroup.classList.add("hidden");
-        text.innerText = "Don't have an account?";
-      } else {
-        title.innerText = "Register";
-        btn.innerText = "Register";
-        emailGroup.classList.remove("hidden");
-        text.innerText = "Already have an account?";
-      }
-
-      msg.innerText = "";
-    }
-
-
-    // MAIN FUNCTION
-
-    function handleAction() {
-      let username = document.getElementById("username").value.trim();
-      let email = document.getElementById("email").value.trim();
-      let password = document.getElementById("password").value.trim();
-      let msg = document.getElementById("message");
-
-      // LOGIN
-      if (isLogin) {
-
-        if (!username || !password) {
-          msg.innerText = "Please enter your email and password";
-          msg.style.color = "orange";
-          return;
-        }
-
-        let user = users.find(u =>
-          (u.username === username || u.email === username) &&
-          u.password === password
-        );
-
-        if (user) {
-          msg.innerText = "Login successful!";
-          msg.style.color = "green";
-
-          // เปลี่ยนจาก currentUser เป็น loggedInUser
-          localStorage.setItem("loggedInUser", user.username); // ใช้ชื่อนี้ให้ตรงกับหน้าเกม
-
-          sessionStorage.removeItem('hasSeenWelcome')
-
-          setTimeout(() => {
-            window.location.href = "./Home.html" // ไปหน้าหลัก
-          }, 800);
-        } else {
-          msg.innerText = "Invalid email or password";
-          msg.style.color = "red";
-        }
-      }
-
-      // REGISTER
-      else {
-
-        if (!username || !email || !password) {
-          msg.innerText = "Please fill in all required fields";
-          msg.style.color = "orange";
-          return;
-        }
-
-        let duplicate = users.some(u =>
-          u.username === username || u.email === email
-        );
-
-        if (duplicate) {
-          msg.innerText = "This username or email is already in use";
-          msg.style.color = "red";
-          return;
-        }
-
-        users.push({ username, email, password });
-        localStorage.setItem("users", JSON.stringify(users));
-
-        msg.innerText = "Registration successful!";
-        msg.style.color = "green";
-
-        setTimeout(toggleMode, 1000);
-      }
-    }
-  </script>
-
+  <script src="./script/theme.js"></script>
+  <script src="./script/login.js"></script>
 </body>
-
 </html>

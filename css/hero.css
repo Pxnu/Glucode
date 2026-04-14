@@ -2,9 +2,11 @@
    Hero Section
 ========================================= */
 .Hero {
-    flex: 1; /* ดึงพื้นที่ที่เหลือจาก Navbar มาใช้ทั้งหมด */
+    flex: 1;
     display: flex;
-    align-items: center; /* จัดเนื้อหาให้อยู่กึ่งกลางแนวตั้ง */
+    align-items: center;
+    position: relative; /* ให้ Hero (ซึ่งกว้างเต็ม 100% ของจอ) เป็นตัวอ้างอิงหลัก */
+    overflow: hidden;
 }
 
 .Hero .container {
@@ -12,19 +14,23 @@
     max-width: 1440px;
     margin: 0 auto;
     padding: 0 2.25rem;
+    /* ❌ ลบ position: relative; ออกจากตรงนี้ เพื่อปล่อยให้แถบฝั่งขวาวิ่งทะลุไปหาขอบจอได้ */
 }
 
 .Hero-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem; /* เพิ่มระยะห่างระหว่างข้อความซ้าย กับ โลโก้ขวา */
 }
 
-/* Left Content */
+/* =========================================
+   Left Content (เนื้อหาฝั่งซ้ายยังอยู่ในระยะ 1440px ปกติ)
+========================================= */
 .left-content {
-    width: 50%; /* ให้กินพื้นที่ฝั่งซ้ายครึ่งนึง */
+    width: 60%;
     max-width: 730px;
+    position: relative;
+    z-index: 2; /* ให้อยู่เหนือแถบสีเผื่อจอเล็กแล้วซ้อนทับกัน */
 }
 
 .left-content .header {
@@ -43,27 +49,31 @@
     color: var(--text);
 }
 
-/* Right Content */
+/* =========================================
+   Right Content (แถบด้านขวาชิดขอบจอ)
+========================================= */
 .right-content {
-    position: relative;
-    width: 50%; /* ให้กินพื้นที่ฝั่งขวาครึ่งนึง */
-    display: flex;
-    justify-content: flex-end; /* ดันกล่องโลโก้ไปชิดขวา */
-    align-items: center;
+    position: absolute;
+    right: 0; /* วิ่งไปชิดขวาสุดของหน้าจอ */
+    top: 50%;
+    transform: translateY(-50%); /* ให้อยู่กึ่งกลางแนวตั้ง */
+    z-index: 1; /* วางไว้ชั้นล่าง */
 }
 
 .right-content .box-logo {
-    position: absolute;
     background-color: var(--hover);
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 450px;
-    box-shadow: 0 4px 4px var(--subtext);
-    right: -300px;
+    padding: 4rem 3rem 4rem 5rem; /* เพิ่มพื้นที่ฝั่งซ้ายให้ตัวหนังสือดูมีสเปซ */
+    min-width: 400px;
+    border-radius: 50px 0 0 50px; /* มนเฉพาะฝั่งซ้าย, ฝั่งขวาเหลี่ยมแนบขอบจอ */
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.1);
+    /* ไม่ต้องใส่ margin-right ติดลบแล้ว กล่องจะได้อยู่เต็มๆ ชิดขอบพอดี */
 }
 
 .right-content h1 {
     color: var(--bg);
-    font-size: 3.5rem;
-    text-align: center;
+    font-size: 4rem;
+    text-align: left;
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: 2px;
 }

@@ -14,21 +14,21 @@ nav .container {
     padding: 2.25rem;
 }
 
-.container .logo img{
+nav .container .logo img {
     color: var(--text);
     font-weight: bold;
     font-size: 2rem;
 }
 
-.container ul {
+nav .container ul {
     display: flex;
 }
 
-.container ul li {
+nav .container ul li {
     margin: 0 1rem;
 }
 
-.container ul > li > a {
+nav .container ul > li > a {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--text);
@@ -36,6 +36,6 @@ nav .container {
     transition: transform 0.3s ease, color 0.3s ease; 
 }
 
-.container ul > li > a:hover {
+nav .container ul > li > a:hover {
     color: var(--hover);
 }
