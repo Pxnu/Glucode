@@ -31,8 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 Leader Board <i id="leaderboardIcon" class="fa-solid fa-angle-down"></i>
             </a>
             <div class="user-dropdown-menu" style="left: 50%; transform: translateX(-50%); text-align: center;">
-                <a href="./LeaderBoard/
-                " class="dropdown-item">Duo</a>
+                <a href="./LeaderBoard/leader_board_duo.html" class="dropdown-item">Duo</a>
                 <a href="./LeaderBoard/leader_board_jigsaws.html" class="dropdown-item">Jigsaws</a> 
             </div>
         `;
