@@ -1,0 +1,150 @@
+:root {
+    --bg: #ebebeb;
+    --box: #ffffff;
+    --text: #333;
+    --subtext: #888;
+    --btn: #222;
+    --btn-text: #fff;
+    
+    --easy: #2ecc71;
+    --medium: #f39c12;
+    --expert: #e74c3c;
+    
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --radius: 16px;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 480px;
+    margin: 60px auto 0; 
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-box {
+    background: var(--box);
+    padding: 20px;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.stat-label {
+    display: block;
+    color: var(--subtext);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    color: var(--text);
+    font-weight: 800;
+    font-size: 1.6rem;
+}
+
+/* Quest Cards */
+.quest-card {
+    background: var(--box);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.quest-card:hover {
+    transform: translateY(3px);
+    box-shadow: 0 8px 20px rgba(170, 65, 65, 0.1);
+}
+
+.quest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/* Badges */
+.badge {
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Fixed your badge color logic here */
+.badge.easy { background: rgba(46, 204, 113, 0.15); color: #27ae60; }
+.badge.medium { background: rgba(243, 156, 18, 0.15); color: #d35400; }
+.badge.expert { background: rgba(231, 76, 60, 0.15); color: #c0392b; }
+
+/* Progress Bar */
+.progress-container {
+    background: #f0f0f0;
+    height: 8px;
+    border-radius: 10px;
+    margin: 15px 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--btn);
+    border-radius: 10px;
+}
+
+.btn-action {
+    width: 100%;
+    background-color: var(--btn);
+    color: var(--btn-text);
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: filter 0.5s;
+}
+.currency-container {
+    background: gold;
+    padding: 10px 20px; 
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    border: 2px solid rgb(0, 0, 0);
+}
+
+.reward-text {
+    color: black;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 8px;
+}
