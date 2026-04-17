@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const choiceOverlay = document.querySelector('#choiceOverlay');
     const closeChoiceBtn = document.querySelector('#closeChoiceBtn');
     const choiceDuo = document.querySelector('.choice-btn-duo');
+    const choiceBoxGame = document.querySelector('.choice-btn-box-game');
 
     if (learnBtn && choiceOverlay) {
         learnBtn.addEventListener('click', () => { choiceOverlay.classList.remove('hide'); });
@@ -30,5 +31,19 @@ document.addEventListener('DOMContentLoaded', () => {
                window.location.href = '../Glucode Game/duo.html'; // ลิงก์ไปหน้าเกม
             }, 800);
         });
+    }
+
+    if(choiceBoxGame) {
+        choiceBoxGame.addEventListener('click' , (e) => {
+            document.body.style.cursor = 'wait'
+            choiceBoxGame.style.cursor =  'wait'
+            choiceBoxGame.style.pointerEvents = 'none'
+            choiceBoxGame.textContent = 'Loading....'
+
+            setTimeout(() => {
+                document.body.style.cursor = 'default'
+                window.location.href = '../Glucode Game/BoxGame.html'
+            }, 800);
+        })
     }
 });

@@ -1,0 +1,272 @@
+/* =========================================
+   BoxGame Styles & Theme Variables
+========================================= */
+
+body.dark {
+    --base: #111;
+    --base-light: #1a1a1a;
+    --text-dark: #eee;
+    --highlight: #fff;
+    --subtext: #aaa;
+    --btn: #fff;
+    --btn-text: #111;
+    --white: #222;
+}
+
+body.halloween {
+    --base: #1a0f0f;
+    --base-light: #2b1a1a;
+    --text-dark: #ff7518;
+    --highlight: #ff7518;
+    --subtext: #ffb347;
+    --btn: #ff7518;
+    --btn-text: #000;
+    --white: #3d2626;
+}
+
+body.winter {
+    --base: #e6f7ff;
+    --base-light: #ffffff;
+    --text-dark: #0b3d91;
+    --highlight: #0b3d91;
+    --subtext: #5a8fd8;
+    --btn: #0b3d91;
+    --btn-text: #fff;
+    --white: #f0faff;
+}
+
+body.easter {
+    --base: #fff0f6;
+    --base-light: #ffffff;
+    --text-dark: #ff69b4;
+    --highlight: #ff69b4;
+    --subtext: #ffb6c1;
+    --btn: #ff69b4;
+    --btn-text: #fff;
+    --white: #fff9fb;
+}
+
+/* สไตล์สำหรับปุ่มเลือกธีมขวาบน */
+.theme-select-game {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 8px 12px;
+    border-radius: 50px;
+    background: var(--btn);
+    color: var(--btn-text);
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ----------------------- */
+:root {
+    --highlight: #222;
+    --base: #ebebeb;
+    --base-light: #ffffff;
+    --text-dark: #333;
+    --white: #ffffff;
+    --subtext: #888;
+    --btn: #222;
+    --btn-text: #fff;
+}
+
+body {
+    background: var(--base);
+    color: var(--text-dark);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    background: var(--base-light);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+#levelTitle {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    background: var(--base);
+    color: var(--highlight);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+h2 { margin-top: 10px; margin-bottom: 30px; }
+
+.answer-container { display: flex; gap: 15px; margin-bottom: 30px; }
+
+#answerArea {
+    flex-grow: 1;
+    min-height: 80px;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    background: var(--base);
+    border-radius: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    transition: 0.2s;
+}
+
+.correct { border: 2px solid #22c55e !important; box-shadow: 0 0 10px rgba(34, 197, 94, 0.3); }
+.wrong { border: 2px solid #ef4444 !important; box-shadow: 0 0 10px rgba(239, 68, 68, 0.3); animation: shake 0.35s ease; }
+
+.btn-submit {
+    background: var(--btn);
+    color: var(--btn-text);
+    border: 2px solid var(--btn);
+    padding: 0 25px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 18px;
+}
+
+.btn-submit:hover { transform: scale(1.05); background-color: transparent; color: var(--highlight); }
+
+.block {
+    display: inline-block;
+    background: var(--white);
+    padding: 10px 15px;
+    margin: 5px;
+    border: 1.5px solid var(--highlight);
+    color: var(--highlight);
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.block:hover { background: var(--highlight); color: white; }
+
+#choices { background: var(--base); padding: 20px; border-radius: 12px; margin-bottom: 20px; min-height: 100px; transition: background-color 0.3s; }
+
+.control-buttons { text-align: right; }
+.btn-secondaryRe, .btn-secondaryDel {
+    background: none; border: 2px solid #ccc; color: var(--subtext);
+    padding: 8px 15px; margin-left: 5px; border-radius: 8px; cursor: pointer; font-size: 17px;
+}
+
+.btn-secondaryRe:hover{
+    background-color: rgb(0, 0, 100);
+    transition: all 0.2s;
+    color: white;
+    border: 2px solid transparent;
+}
+
+.btn-secondaryDel:hover{
+    background-color: red;
+    transition: all 0.2s ;
+    color: white;
+    border: 2px solid transparent;
+}
+
+#result { margin-top: 10px; height: 30px; font-weight: bold; font-size: 1.1em; }
+
+#scoreTitle {
+    position: absolute;
+    top: 20px;
+    right: 160px;
+    background: var(--base);
+    color: var(--highlight);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+@keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+.block.add { animation: popIn 0.2s ease; }
+
+.close-popup {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    border: none;
+    background: none;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #666;
+}
+
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup-box {
+    position: relative;
+    background: var(--base-light);
+    color: var(--text-dark);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    width: 350px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: popIn 0.25s ease;
+}
+
+.popup-box h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.popup-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.popup-buttons button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.goHome {
+    background-color: var(--btn);
+    color: var(--btn-text);
+}
+
+.gohome-btn{
+    margin-top: 30px;
+    color: var(--btn);
+    text-shadow: 0 0 20px var(--highlight);
+    text-decoration: none;
+    font-weight: bold;
+}

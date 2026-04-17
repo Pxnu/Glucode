@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Glucode - HTML Learning Game</title>
+    <link rel="stylesheet" href="../css/boxgame.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 style="margin-top:0; margin-bottom:20px; font-size:2.2rem; text-align:left;">Glucode</h1>
+        <div id="levelTitle"></div>
+        <h2 id="question"></h2>
+
+        <div class="answer-container">
+            <div id="answerArea"></div>
+            <button class="btn-submit" onclick="submitAnswer()">Submit</button>
+        </div>
+
+        <div id="choices"></div>
+
+        <div class="control-buttons">
+            <button class="btn-secondaryDel" onclick="removeLast()">Delete</button>
+            <button class="btn-secondaryRe" onclick="resetBoard()">&#10227;</button>
+            <div id="scoreTitle"></div>
+        </div>
+
+        <div id="result"></div>
+
+    </div>
+
+    <div id="finishPopup" class="popup-overlay">
+        <div class="popup-box">
+            <button class="close-popup" onclick="closePopup()">×</button>
+
+            <h2>🎉 ยินดีด้วย!</h2>
+            <p>คุณเล่นจบครบทุกด่านแล้ว</p>
+            <p id="finalScoreText">Score: 0</p>
+
+            <div class="popup-buttons">
+                <button onclick="playAgain()">เล่นอีกครั้ง</button>
+                <button onclick="goHome()" class="goHome">กลับหน้าหลัก</button>
+            </div>
+        </div>
+    </div>
+
+    <select class="theme-select-game" id="themeSelect" onchange="setTheme(this.value)">
+        <option value="light">Light Mode</option>
+        <option value="dark">Dark Mode</option>
+        <option value="halloween">Halloween</option>
+        <option value="winter">Winter</option>
+        <option value="easter">Easter</option>
+    </select>
+
+    <button class="btn-secondarySkip" onclick="skipToFinish()"
+        style="margin-top: 15px; background: transparent; border: 1px solid var(--subtext); color: var(--subtext); padding: 5px 15px; border-radius: 5px; cursor: pointer;">Skip</button>
+    <a href="../Home.html" class="gohome-btn">Go Home</a>
+
+    <script src="../script/data.js"></script>
+    <script src="../script/boxgame.js"></script>
+
+</body>
+
+</html>
