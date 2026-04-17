@@ -5,7 +5,8 @@ function loadLeaderboard() {
     let users = JSON.parse(localStorage.getItem("users")) || [];
     players = users.map(u => ({
         name: u.username,
-        score: u.score || Math.floor(Math.random() * 1000) // ตัวอย่างดึงคะแนน
+        // แก้ไข: ดึงคะแนนจริง ถ้าไม่มี (undefined) ให้ตั้งค่าเป็น 0
+        score: u.score !== undefined ? u.score : 0 
     }));
 }
 
@@ -19,6 +20,7 @@ function renderBoard() {
         return;
     }
 
+    // เรียงลำดับคนได้คะแนนมากไปน้อย
     players.sort((a, b) => b.score - a.score);
 
     players.slice(0, MAX_PLAYERS).forEach((p, index) => {
