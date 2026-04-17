@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="${rootPath}Profile.html" class="dropdown-item">Profile</a>
             <a href="${rootPath}Shop.html" class="dropdown-item">Shop</a>
             <a href="../Glucode quest/quest.html" class="dropdown-item">Quests</a>
+            <a href="../Glucode quest/achievement.html" class="dropdown-item">Achievement</a>
             <a href="#" id="logoutBtn" class="dropdown-item">Logout</a>
         </div>
     `;
