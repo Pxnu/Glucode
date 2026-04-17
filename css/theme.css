@@ -1,82 +1,80 @@
 /* =========================================
-   Glucode - Master Theme Styles
-   รวมตัวแปรสีสำหรับทุกหน้า (Global & BoxGame)
+   Glucode - Premium Master Theme Styles
 ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
-/* 1. Dark Theme */
+/* 1. Light Theme (Default) - สไตล์คลีนๆ ดูแพง ขาว/เทาอมฟ้า */
+:root {
+    --bg: #F8FAFC;
+    /* พื้นหลังสีเทาอ่อน สบายตา */
+    --box: #FFFFFF;
+    /* กล่องสีขาวล้วน */
+    --text: #0F172A;
+    /* ตัวอักษรสีน้ำเงินเข้มจัด (แทนสีดำ) */
+    --subtext: #64748B;
+    /* ตัวอักษรย่อยสีเทา */
+    --btn: #FF7518;
+    /* สีส้ม Signature ของ Glucode */
+    --btn-text: #FFFFFF;
+    /* สีตัวอักษรบนปุ่ม */
+    --hover: #EA580C;
+    /* สีส้มเข้มตอนโฮเวอร์ */
+    --border: #E2E8F0;
+    /* สีขอบบางๆ */
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    /* เงาฟุ้งๆ */
+}
+
+/* 2. Dark Theme - สไตล์ล้ำๆ โทนน้ำเงินเข้ม/เทา */
 body.dark {
-    /* สำหรับหน้า Global */
-    --bg: #111;
-    --box: #1a1a1a;
-    --text: #eee;
-    --subtext: #aaa;
-    --btn: #fff;
-    --btn-text: #111;
-    --hover: #ffb347;
-
-    /* สำหรับหน้า BoxGame */
-    --base: #111;
-    --base-light: #1a1a1a;
-    --text-dark: #eee;
-    --highlight: #fff;
-    --white: #222;
+    --bg: #0F172A;
+    --box: #1E293B;
+    --text: #F8FAFC;
+    --subtext: #94A3B8;
+    --btn: #FF7518;
+    --btn-text: #FFFFFF;
+    --hover: #EA580C;
+    --border: #334155;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* 2. Halloween Theme */
+/* 3. Halloween Theme - ม่วงเข้ม/ส้มเรืองแสง */
 body.halloween {
-    /* สำหรับหน้า Global */
-    --bg: #1a0f0f;
-    --box: #2b1a1a;
-    --text: #ff7518;
-    --subtext: #ffb347;
-    --btn: #ff7518;
-    --btn-text: #000;
-    --hover: #e66a15;
-
-    /* สำหรับหน้า BoxGame */
-    --base: #1a0f0f;
-    --base-light: #2b1a1a;
-    --text-dark: #ff7518;
-    --highlight: #ff7518;
-    --white: #3d2626;
+    --bg: #1A0B2E;
+    --box: #2D1B4E;
+    --text: #FF9E00;
+    --subtext: #B392DD;
+    --btn: #FF7518;
+    --btn-text: #1A0B2E;
+    --hover: #FF9E00;
+    --border: #4A2B7C;
+    --shadow: 0 10px 30px rgba(255, 117, 24, 0.15);
 }
 
-/* 3. Winter Theme */
+/* 4. Winter Theme - ขาวสว่าง/ฟ้าอ่อน/น้ำเงิน */
 body.winter {
-    /* สำหรับหน้า Global */
-    --bg: #e6f7ff;
-    --box: #ffffff;
-    --text: #0b3d91;
-    --subtext: #5a8fd8;
-    --btn: #0b3d91;
-    --btn-text: #fff;
-    --hover: #082b66;
-
-    /* สำหรับหน้า BoxGame */
-    --base: #e6f7ff;
-    --base-light: #ffffff;
-    --text-dark: #0b3d91;
-    --highlight: #0b3d91;
-    --white: #f0faff;
+    --bg: #F0F9FF;
+    --box: #FFFFFF;
+    --text: #0369A1;
+    --subtext: #38BDF8;
+    --btn: #0284C7;
+    --btn-text: #FFFFFF;
+    --hover: #0369A1;
+    --border: #BAE6FD;
+    --shadow: 0 10px 30px rgba(2, 132, 199, 0.1);
 }
 
-/* 4. Easter Theme */
+/* 5. Easter Theme - พาสเทลชมพู/เหลือง/เขียว */
 body.easter {
-    /* สำหรับหน้า Global */
-    --bg: #fff0f6;
-    --box: #ffffff;
-    --text: #ff69b4;
-    --subtext: #ffb6c1;
-    --btn: #ff69b4;
-    --btn-text: #fff;
-    --hover: #e0529d;
-
-    /* สำหรับหน้า BoxGame */
-    --base: #fff0f6;
-    --base-light: #ffffff;
-    --text-dark: #ff69b4;
-    --highlight: #ff69b4;
-    --white: #fff9fb;
+    --bg: #FFF5F7;
+    --box: #FFFFFF;
+    --text: #BE185D;
+    --subtext: #F472B6;
+    --btn: #EC4899;
+    --btn-text: #FFFFFF;
+    --hover: #BE185D;
+    --border: #FBCFE8;
+    --shadow: 0 10px 30px rgba(236, 72, 153, 0.1);
 }
 
 /* =========================================
@@ -86,17 +84,16 @@ body.easter {
     position: fixed;
     bottom: 25px;
     left: 25px;
-    /* วางซ้ายล่าง เพื่อหลบ Popup ของ Achievement ขวาล่าง */
     display: flex;
     flex-direction: row;
     gap: 8px;
     background: var(--box);
     padding: 10px 15px;
     border-radius: 50px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow);
     z-index: 9999;
-    border: 2px solid rgba(150, 150, 150, 0.15);
-    transition: background-color 0.3s;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
 }
 
 .theme-switcher .theme-btn {
@@ -106,15 +103,13 @@ body.easter {
     border: none !important;
     background: transparent !important;
     color: var(--subtext) !important;
-    font-size: 1.3rem !important;
+    font-size: 1.2rem !important;
     cursor: pointer !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
     box-shadow: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
 }
 
 .theme-switcher .theme-btn:hover {
@@ -124,15 +119,13 @@ body.easter {
 }
 
 .theme-switcher .theme-btn.active {
-    background: var(--hover) !important;
-    color: white !important;
-    box-shadow: 0 5px 15px rgba(255, 117, 24, 0.4) !important;
+    background: var(--btn) !important;
+    color: var(--btn-text) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
     transform: scale(1.1) !important;
 }
 
-/* =========================================
-   Force Sync Theme Transition (แก้ปัญหาสีเหลื่อม)
-========================================= */
+/* Force Sync Theme Transition */
 body,
 nav,
 .container,
@@ -145,5 +138,5 @@ nav,
 .answer-container,
 #choices,
 #answerArea {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
 }

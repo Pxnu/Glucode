@@ -1,41 +1,75 @@
 /* =========================================
-   Navigation Bar
+   Navbar Styles (Premium Glassmorphism)
 ========================================= */
 nav {
-    background-color: var(--bg);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(var(--box), 0.8) !important;
+    /* โปร่งแสง */
+    backdrop-filter: blur(12px);
+    /* เบลอพื้นหลังที่อยู่หลัง Navbar */
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
 }
 
 nav .container {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     max-width: 1440px;
     margin: 0 auto;
-    padding: 2.25rem;
+    padding: 1.2rem 2.5rem !important;
 }
 
-nav .container .logo img {
+nav .logo a {
     color: var(--text);
-    font-weight: bold;
-    font-size: 2rem;
+    font-weight: 800;
+    font-size: 2.2rem;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--text), var(--btn));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: opacity 0.3s ease;
 }
 
-nav .container ul {
+nav .logo a:hover {
+    opacity: 0.8;
+}
+
+nav ul {
     display: flex;
+    align-items: center;
+    gap: 35px;
 }
 
-nav .container ul li {
-    margin: 0 1rem;
-}
-
-nav .container ul > li > a {
-    font-size: 1.25rem;
+nav ul li a {
+    color: var(--subtext);
+    font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text);
-    display: inline-block; 
-    transition: transform 0.3s ease, color 0.3s ease; 
+    transition: all 0.3s ease;
+    position: relative;
 }
 
-nav .container ul > li > a:hover {
-    color: var(--hover);
+nav ul li a:hover {
+    color: var(--btn);
+}
+
+/* เอฟเฟกต์ขีดเส้นใต้ตอน Hover เมนู */
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: -6px;
+    left: 0;
+    background-color: var(--btn);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
 }

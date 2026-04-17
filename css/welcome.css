@@ -1,48 +1,71 @@
 /* =========================================
-   Welcome Overlay Animation
+   Welcome Overlay Styles (Full Screen Edition)
 ========================================= */
 .welcome-overlay {
     position: fixed;
+    /* บังคับให้ขยายเต็มพื้นที่จอทุกทิศทาง */
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
     height: 100vh;
-    background-color: #1a1a1a;
-    z-index: 9999; 
+    
+    /* ใช้สีพื้นหลังตามธีมและทำให้ทึบ (0.98) เพื่อบังปุ่มธีมและเนื้อหาหลังจอ */
+    background-color: var(--bg);
+    
+    /* เอฟเฟกต์กระจกฝ้า (เลือกใช้ตามความชอบ ถ้าอยากให้ทึบสนิทให้ลบ backdrop-filter ออก) */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
     display: flex;
     justify-content: center;
     align-items: center;
-    /* 1. ปรับเวลาตอนจางหายให้ไวขึ้น (จาก 0.8s เหลือ 0.5s) */
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out; 
+    
+    /* Z-index สูงสุดเพื่อให้อยู่เหนือทุกอย่าง รวมถึงปุ่มเปลี่ยนธีม (9999) */
+    z-index: 1000000; 
+    
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+/* คลาสสำหรับซ่อน Overlay (เรียกใช้ผ่าน JS) */
+.welcome-overlay.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* ป้องกันการคลิกโดนสิ่งที่ซ่อนอยู่ */
 }
 
 .welcome-content {
     text-align: center;
-    color: #fff;
-    opacity: 0;
-    transform: translateY(30px);
-    /* 2. ปรับแอนิเมชันเด้งขึ้นให้ไวขึ้น (ใช้เวลา 0.5s และหน่วงแค่ 0.1s ก่อนเริ่ม) */
-    animation: fadeInUp 0.5s forwards 0.1s; 
+    padding: 40px;
+    /* ลบกรอบสีขาว (box) ออกเพื่อให้ดูโปร่งและเป็นเนื้อเดียวกับหน้าจอ หรือปรับขนาดตามต้องการ */
+    background: transparent; 
+    transform: scale(1);
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.welcome-overlay.hide .welcome-content {
+    transform: scale(0.9);
 }
 
 .welcome-content h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
+    font-size: 4rem; /* ขยายขนาดหัวข้อ */
+    color: var(--text);
+    margin-bottom: 20px;
+    font-weight: 800;
+    letter-spacing: -1px;
 }
 
 .welcome-content p {
-    font-size: 1.2rem;
-    color: #aaa;
+    font-size: 1.8rem;
+    color: var(--subtext);
+    font-weight: 500;
 }
 
-.welcome-overlay.hide {
-    opacity: 0;
-    visibility: hidden;
-}
-
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* เพิ่มแอนิเมชันให้ชื่อ User เรืองแสงส้ม */
+#welcomeName {
+    color: var(--btn);
+    text-shadow: 0 0 20px rgba(255, 117, 24, 0.3);
 }
