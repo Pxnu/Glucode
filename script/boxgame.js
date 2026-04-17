@@ -1,6 +1,8 @@
-/* =========================
-   LEVEL DATA (ข้อมูลโจทย์ครบ 100%)
-========================= */
+/* ==========================================
+   BOXGAME JS - FULL VERSION (Persistence & Skip)
+========================================== */
+
+// --- ข้อมูลด่าน (Easy, Medium, Hard, Expert) ---
 const easyLevels = [
     { question: "สร้างหัวข้อหลัก (Main Heading)", correct: ["<h1>", "My Website", "</h1>"], choices: ["</h1>", "<h1>", "My Website"] },
     { question: "สร้างย่อหน้าเนื้อหา", correct: ["<p>", "This is a paragraph.", "</p>"], choices: ["</p>", "This is a paragraph.", "<p>"] },
@@ -62,20 +64,97 @@ let currentLevel = 0;
 let answerList = [];
 let isSubmitting = false;
 
-// --- ตัวแปรสำหรับ Achievement ---
-let boxCorrectTotal = 0;
-let boxStreak = 0;
-let levelStartTime = 0;
-
 let easyPlayed = [];
 let mediumPlayed = [];
 let hardPlayed = [];
 let expertPlayed = [];
 
 /* =========================
-   FUNCTIONS
+   💾 ระบบจดจำสถานะ (Persistence)
 ========================= */
+function saveGameState() {
+    const state = {
+        currentDifficulty: currentDifficulty,
+        currentLevel: currentLevel,
+        easyPlayed: easyPlayed,
+        mediumPlayed: mediumPlayed,
+        hardPlayed: hardPlayed,
+        expertPlayed: expertPlayed
+    };
+    localStorage.setItem('boxgame_persistence', JSON.stringify(state));
+}
 
+function loadGameState() {
+    const saved = localStorage.getItem('boxgame_persistence');
+    if (saved) {
+        const state = JSON.parse(saved);
+        currentDifficulty = state.currentDifficulty || "easy";
+        currentLevel = state.currentLevel || 0;
+        easyPlayed = state.easyPlayed || [];
+        mediumPlayed = state.mediumPlayed || [];
+        hardPlayed = state.hardPlayed || [];
+        expertPlayed = state.expertPlayed || [];
+        return true;
+    }
+    return false;
+}
+
+/* =========================
+   🚀 ระบบ Skip (ใช้ Coins x1)
+========================= */
+function skipLevel() {
+    if (isSubmitting) return;
+
+    let cost = 0;
+    if (currentDifficulty === "easy") cost = 10;
+    else if (currentDifficulty === "medium") cost = 20;
+    else if (currentDifficulty === "hard") cost = 30;
+    else if (currentDifficulty === "expert") cost = 40;
+
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    let userIndex = users.findIndex(u => u.username === loggedInUser);
+
+    if (userIndex !== -1 && users[userIndex].coins >= cost) {
+        isSubmitting = true;
+        users[userIndex].coins -= cost;
+        localStorage.setItem('users', JSON.stringify(users));
+
+        // อัปเดต UI เหรียญบน Navbar
+        const coinDisplay = document.querySelector('.coin-display strong');
+        if (coinDisplay) coinDisplay.innerText = users[userIndex].coins;
+
+        document.getElementById("result").innerText = `ข้ามด่านสำเร็จ! (-${cost} Coins)`;
+        document.getElementById("result").style.color = "#f59e0b";
+
+        setTimeout(() => {
+            let next = getRandomLevelByDifficulty();
+            if (next === -1) {
+                if (currentDifficulty === "easy") currentDifficulty = "medium";
+                else if (currentDifficulty === "medium") currentDifficulty = "hard";
+                else if (currentDifficulty === "hard") currentDifficulty = "expert";
+                else { showFinishPopup(); isSubmitting = false; return; }
+                currentLevel = getRandomLevelByDifficulty();
+            } else {
+                currentLevel = next;
+            }
+            loadLevel();
+            document.getElementById("result").innerText = "";
+            isSubmitting = false;
+        }, 800);
+    } else {
+        document.getElementById("result").innerText = `เหรียญไม่พอ! (ต้องการ ${cost} Coins)`;
+        document.getElementById("result").style.color = "#ef4444";
+        document.getElementById("answerArea").classList.add("wrong");
+        setTimeout(() => {
+            document.getElementById("answerArea").classList.remove("wrong");
+        }, 400);
+    }
+}
+
+/* =========================
+   CORE LOGIC
+========================= */
 function getRandomLevelByDifficulty() {
     let pool, played;
     if (currentDifficulty === "easy") { pool = easyLevels; played = easyPlayed; }
@@ -98,41 +177,20 @@ function getCurrentLevelData() {
     return expertLevels[currentLevel];
 }
 
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
-
-function updateLevelColor(total) {
-    const el = document.getElementById("levelTitle");
-    if (total <= 5) { el.style.background = "#22c55e"; }
-    else if (total <= 10) { el.style.background = "#eab308"; }
-    else if (total <= 15) { el.style.background = "#f97316"; }
-    else { el.style.background = "#ef4444"; }
-    el.style.color = "white";
-}
-
 function loadLevel() {
-    let answerArea = document.getElementById('answerArea');
-    answerArea.classList.remove("correct", "wrong");
+    const area = document.getElementById('answerArea');
+    if (area) area.classList.remove("correct", "wrong");
     answerList = [];
 
-    let level = getCurrentLevelData();
-    let totalPlayed = easyPlayed.length + mediumPlayed.length + hardPlayed.length + expertPlayed.length;
+    const level = getCurrentLevelData();
+    const totalPlayed = easyPlayed.length + mediumPlayed.length + hardPlayed.length + expertPlayed.length;
 
     document.getElementById("levelTitle").innerText = `Level: ${totalPlayed} / 20`;
-    updateLevelColor(totalPlayed);
-    if (typeof updateScoreUI === "function") updateScoreUI();
-
     document.getElementById("question").innerText = level.question;
 
     let choicesDiv = document.getElementById("choices");
     choicesDiv.innerHTML = "";
-
-    let displayChoices = [...new Set(level.choices)];
-    shuffle(displayChoices);
+    let displayChoices = [...new Set(level.choices)].sort(() => Math.random() - 0.5);
 
     displayChoices.forEach(choice => {
         let btn = document.createElement("div");
@@ -143,9 +201,7 @@ function loadLevel() {
     });
 
     renderAnswer();
-
-    // เริ่มจับเวลาเมื่อโหลดด่านเสร็จ
-    levelStartTime = Date.now();
+    saveGameState(); // บันทึกทุกครั้งที่โหลดด่าน
 }
 
 function renderAnswer() {
@@ -170,7 +226,7 @@ function addAnswer(value) {
 
 function removeLast() { answerList.pop(); renderAnswer(); }
 function removeAt(index) { answerList.splice(index, 1); renderAnswer(); }
-function resetBoard() { answerList = []; renderAnswer(); let answerArea = document.getElementById("answerArea"); let result = document.getElementById("result"); result.innerText = ""; answerArea.classList.remove("correct", "wrong"); }
+function resetBoard() { answerList = []; renderAnswer(); }
 
 function submitAnswer() {
     if (isSubmitting) return;
@@ -180,65 +236,18 @@ function submitAnswer() {
     let result = document.getElementById("result");
     let answerArea = document.getElementById("answerArea");
 
-    answerArea.classList.remove("wrong", "correct");
-
     if (JSON.stringify(answerList) === JSON.stringify(level.correct)) {
-        result.style.color = "green";
+        result.style.color = "#10B981";
         result.innerText = "ถูกต้อง!";
         answerArea.classList.add("correct");
-
-        // 🏆 ===== ระบบเช็ค ACHIEVEMENT ===== 🏆
-        let timeTaken = (Date.now() - levelStartTime) / 1000;
-        boxCorrectTotal++;
-        boxStreak++;
-
-        if (typeof window.unlockAchievement === "function") {
-            window.unlockAchievement("code-first");
-            window.unlockAchievement("word-first");
-
-            if (boxCorrectTotal >= 5) window.unlockAchievement("code-correct-5");
-            if (boxCorrectTotal >= 10) {
-                window.unlockAchievement("code-correct-10");
-                window.unlockAchievement("code-master");
-            }
-            if (boxStreak >= 5) window.unlockAchievement("word-5");
-            if (boxStreak >= 3) window.unlockAchievement("word-3");
-            if (timeTaken <= 5) window.unlockAchievement("code-speed");
-
-            let answerStr = answerList.join(" ").toLowerCase();
-            if (answerStr.includes("if")) window.unlockAchievement("code-if");
-            if (answerStr.includes("for") || answerStr.includes("while")) window.unlockAchievement("code-loop");
-            if (answerStr.includes("[") || answerStr.includes("array")) window.unlockAchievement("code-array");
-        }
-        // ===================================
-
-        // 📜 ===== ระบบเช็ค QUEST ===== 📜
-        if (typeof window.updateQuestProgress === "function") {
-            window.updateQuestProgress("q_box_3", 1); // บวกยอด BoxGame
-            window.updateQuestProgress("q_streak_3", boxStreak); // ส่งค่า Streak
-            window.updateQuestProgress("q_score_50", 10); // แจก 10 คะแนนสำหรับสะสมเควส
-            
-            // เช็คเควสพิเศษเจาะจง (ถ้าใช้คำสั่ง <h1>)
-            let answerStr = answerList.join("").toLowerCase();
-            if (answerStr.includes("<h1>")) {
-                window.updateQuestProgress("q_box_h1", 1);
-            }
-        }
-
-        if (typeof addScore === "function") addScore(currentDifficulty);
 
         setTimeout(() => {
             let next = getRandomLevelByDifficulty();
             if (next === -1) {
-                if (currentDifficulty === "easy") { currentDifficulty = "medium"; }
-                else if (currentDifficulty === "medium") { currentDifficulty = "hard"; }
-                else if (currentDifficulty === "hard") { currentDifficulty = "expert"; }
-                else {
-                    showFinishPopup();
-                    answerArea.classList.remove("correct");
-                    isSubmitting = false;
-                    return;
-                }
+                if (currentDifficulty === "easy") currentDifficulty = "medium";
+                else if (currentDifficulty === "medium") currentDifficulty = "hard";
+                else if (currentDifficulty === "hard") currentDifficulty = "expert";
+                else { showFinishPopup(); isSubmitting = false; return; }
                 currentLevel = getRandomLevelByDifficulty();
             } else {
                 currentLevel = next;
@@ -247,63 +256,31 @@ function submitAnswer() {
             result.innerText = "";
             isSubmitting = false;
         }, 800);
-
     } else {
-        result.style.color = "red";
+        result.style.color = "#ef4444";
         result.innerText = "ยังไม่ถูก ลองใหม่";
         answerArea.classList.add("wrong");
-        boxStreak = 0; // ตัดสตรีค
         setTimeout(() => { answerArea.classList.remove("wrong"); isSubmitting = false; }, 400);
     }
 }
 
-function setTheme(theme) {
-    document.body.className = "";
-    if (theme !== "light") { document.body.classList.add(theme); }
-    localStorage.setItem("theme", theme);
-}
-
-function applyTheme() {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    setTheme(savedTheme);
-}
-
 function showFinishPopup() {
-    const user = typeof getCurrentUser === "function" ? getCurrentUser() : "Guest";
-    const finalScore = typeof loadScore === "function" ? loadScore() : 0;
-
-    document.getElementById("finishPopup").querySelector("h2").innerText = `🎉 ยินดีด้วยคุณ ${user}!`;
-    document.getElementById("finalScoreText").innerText = `คะแนนรวมทั้งหมดของคุณคือ: ${finalScore}`;
-    document.getElementById("finishPopup").style.display = "flex";
+    const popup = document.getElementById("finishPopup");
+    popup.style.display = "flex";
+    localStorage.removeItem('boxgame_persistence'); // จบเกมให้ล้างค่าที่เซฟไว้
 }
 
 function playAgain() {
-    if (typeof resetScore === "function") resetScore();
-    currentDifficulty = "easy";
-    easyPlayed = []; mediumPlayed = []; hardPlayed = []; expertPlayed = [];
-    answerList = []; isSubmitting = false;
-    currentLevel = getRandomLevelByDifficulty();
-    loadLevel();
-    document.getElementById("finishPopup").style.display = "none";
+    localStorage.removeItem('boxgame_persistence');
+    location.reload();
 }
 
 function goHome() { window.location.href = "../Home.html"; }
-
-function closePopup() {
-    document.getElementById("finishPopup").style.display = "none";
-    document.addEventListener("keydown", function (event) { if (event.key === "Escape") { closePopup(); } });
-    document.getElementById("finishPopup").addEventListener("click", function (event) { if (event.target === this) { closePopup(); } });
-}
-
-function skipToFinish() {
-    if (typeof saveScore === "function") saveScore(50);
-    if (typeof updateScoreUI === "function") updateScoreUI();
-    showFinishPopup();
-}
+function closePopup() { document.getElementById("finishPopup").style.display = "none"; }
 
 window.onload = () => {
-    applyTheme();
-    if (typeof updateScoreUI === "function") updateScoreUI();
-    currentLevel = getRandomLevelByDifficulty();
+    if (!loadGameState()) {
+        currentLevel = getRandomLevelByDifficulty();
+    }
     loadLevel();
 };
