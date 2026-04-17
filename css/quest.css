@@ -37,6 +37,39 @@
     font-size: 1.1rem;
 }
 
+.quest-container .point-and-achievement {
+    display: flex;
+    align-items: center;
+}
+
+.point-and-achievement .achievement {
+    padding: 15px 30px; 
+    margin-left: 1rem;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.achievement a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.achievement a:hover {
+    text-decoration: underline;
+}
+
+.achievement a:active {
+    color: var(--hover);
+}
+
+
+
 /* =========================================
    Currency Display
 ========================================= */
