@@ -1,18 +1,21 @@
+/* ==========================================
+   DUO JS - FULL VERSION (Separate ScoreDuo)
+========================================== */
+
 document.addEventListener('DOMContentLoaded', () => {
-    let currentUser = localStorage.getItem("loggedInUser");
+    const currentUser = localStorage.getItem("loggedInUser");
+    if (!currentUser) return;
 
     let currentStage = 1;
     let maxStage = 10;
     let correctAnswer = "";
     let isSubmitting = false;
-    let totalScore = 0;
+    let totalScore = 0; // ตัวแปรนี้จะเก็บคะแนนของ Duo เท่านั้น
 
-    // --- ตัวแปรสำหรับ Achievement ---
     let duoCorrectTotal = 0;
     let duoStreak = 0;
     let questionStartTime = 0;
 
-    // --- ข้อมูลโจทย์ (แบบเต็มครบทุกข้อ) ---
     const quizData = {
         level1: [
             { tags: ["<h1>", "Welcome", "</h1>"], hint: "สร้างหัวเรื่องใหญ่ 'Welcome'" },
@@ -81,17 +84,76 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    function addScoreToUser(points) {
+    function saveGameState() {
+        const state = {
+            currentStage: currentStage,
+            duoCorrectTotal: duoCorrectTotal,
+            duoStreak: duoStreak
+        };
+        localStorage.setItem(`duo_persistence_${currentUser}`, JSON.stringify(state));
+    }
+
+    function loadGameState() {
+        const saved = localStorage.getItem(`duo_persistence_${currentUser}`);
+        if (saved) {
+            const state = JSON.parse(saved);
+            currentStage = state.currentStage || 1;
+            duoCorrectTotal = state.duoCorrectTotal || 0;
+            duoStreak = state.duoStreak || 0;
+            return true;
+        }
+        return false;
+    }
+
+    window.skipLevel = function () {
+        if (isSubmitting) return;
+
+        let cost = 0;
+        if (currentStage >= 1 && currentStage <= 3) cost = 20;
+        else if (currentStage >= 4 && currentStage <= 6) cost = 40;
+        else if (currentStage >= 7 && currentStage <= 10) cost = 60;
+        else cost = 80;
+
         let users = JSON.parse(localStorage.getItem("users")) || [];
         let userIndex = users.findIndex(u => u.username === currentUser);
 
         if (userIndex !== -1) {
-            if (!users[userIndex].score) {
-                users[userIndex].score = 0;
+            let user = users[userIndex];
+            
+            if (user.coins >= cost) {
+                isSubmitting = true;
+                user.coins -= cost;
+                users[userIndex] = user;
+                localStorage.setItem("users", JSON.stringify(users));
+                
+                const coinDisplay = document.querySelector('.coin-display strong');
+                if (coinDisplay) coinDisplay.innerText = user.coins;
+
+                const resultDisplay = document.getElementById("resultMessage");
+                resultDisplay.textContent = `⏭️ ข้ามด่านสำเร็จ! ใช้ไป ${cost} Coins (x2 Duo Rate)`;
+                resultDisplay.className = "success";
+
+                setTimeout(() => {
+                    duoStreak = 0; 
+                    if (currentStage < maxStage) {
+                        currentStage++;
+                        generateQuiz();
+                        isSubmitting = false;
+                    } else {
+                        finishGame();
+                    }
+                }, 1000);
+            } else {
+                alert(`⚠️ เหรียญไม่พอสำหรับข้ามด่านในโหมด Duo! (ต้องการ ${cost} Coins)`);
             }
-            users[userIndex].score += points;
-            localStorage.setItem("users", JSON.stringify(users));
         }
+    };
+
+    function getLevelByStage(stage) {
+        if (stage >= 1 && stage <= 3) return 'level1';
+        if (stage >= 4 && stage <= 6) return 'level2';
+        if (stage >= 7 && stage <= 10) return 'level3';
+        return 'level1';
     }
 
     function getScoreByStage(stage) {
@@ -101,21 +163,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return 0;
     }
 
-    function getLevelByStage(stage) {
-        if (stage >= 1 && stage <= 3) return 'level1';
-        if (stage >= 4 && stage <= 6) return 'level2';
-        if (stage >= 7 && stage <= 10) return 'level3';
-        return 'level1';
-    }
-
     function generateQuiz() {
         document.getElementById("userInput").value = "";
         document.getElementById("userInput").disabled = false;
         document.getElementById("resultMessage").innerHTML = "";
         document.getElementById("resultMessage").className = "";
+        document.getElementById("submitBtn").disabled = false;
 
-        let level = getLevelByStage(currentStage);
-        const levelArray = quizData[level];
+        let levelKey = getLevelByStage(currentStage);
+        const levelArray = quizData[levelKey];
         const randomIndex = Math.floor(Math.random() * levelArray.length);
         const currentItem = levelArray[randomIndex];
 
@@ -123,8 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("hintText").textContent = `Stage ${currentStage}: ${currentItem.hint}`;
         document.getElementById("levelDisplay").textContent = `Level: ${currentStage} / ${maxStage}`;
 
-        // เริ่มจับเวลาเมื่อโจทย์แสดง
         questionStartTime = Date.now();
+        saveGameState();
     }
 
     function normalizeAnswer(str) {
@@ -141,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let userTyped = answerField.value.trim();
 
         if (userTyped === "") {
-            resultDisplay.textContent = "⚠️ กรุณากรอกคำตอบ";
+            resultDisplay.textContent = "⚠️ กรุณากรอกคำตอบก่อนส่ง";
             resultDisplay.className = "error";
             isSubmitting = false;
             return;
@@ -150,15 +206,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (normalizeAnswer(userTyped) === normalizeAnswer(correctAnswer)) {
             let earnedScore = getScoreByStage(currentStage);
             totalScore += earnedScore;
+
             addScoreToUser(earnedScore);
             document.getElementById("scoreDisplay").textContent = `${currentUser} - Score: ${totalScore}`;
-            resultDisplay.textContent = `🎉 ถูกต้องเก่งมาก! +${earnedScore} คะแนน`;
+            
+            resultDisplay.textContent = `🎉 ถูกต้อง! รับไป ${earnedScore} คะแนน`;
             resultDisplay.className = "success";
 
             submitBtn.disabled = true;
             answerField.disabled = true;
 
-            // 🏆 ===== ระบบเช็ค ACHIEVEMENT ===== 🏆
             let timeTaken = (Date.now() - questionStartTime) / 1000;
             duoCorrectTotal++;
             duoStreak++;
@@ -173,56 +230,71 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (duoStreak >= 5) window.unlockAchievement("quiz-5");
                 if (timeTaken <= 5) window.unlockAchievement("quiz-speed");
             }
-            // ===================================
 
-            // 📜 ===== ระบบเช็ค QUEST ===== 📜
             if (typeof window.updateQuestProgress === "function") {
-                window.updateQuestProgress("q_duo_5", 1); // บวกยอดเกม Duo
-                window.updateQuestProgress("q_streak_3", duoStreak); // ส่งค่า Streak
-                window.updateQuestProgress("q_score_50", earnedScore); // สะสมคะแนน
+                window.updateQuestProgress("q_duo_5", 1); 
+                window.updateQuestProgress("q_streak_3", duoStreak);
+                window.updateQuestProgress("q_score_50", earnedScore);
             }
 
             if (currentStage < maxStage) {
                 currentStage++;
                 setTimeout(() => {
                     generateQuiz();
-                    submitBtn.disabled = false;
-                    answerField.disabled = false;
                     isSubmitting = false;
                 }, 1500);
             } else {
-                resultDisplay.innerHTML = `🏆 ยินดีด้วย! คุณผ่านทุกสเตจแล้ว!<br>คะแนนรวม: ${totalScore} คะแนน`;
-                submitBtn.disabled = true;
-                answerField.disabled = true;
-                isSubmitting = false;
+                finishGame();
             }
         } else {
-            resultDisplay.textContent = "❌ ยังไม่ถูก ลองอีกครั้งนะ";
+            resultDisplay.textContent = "❌ ยังไม่ถูกต้อง ลองใหม่อีกครั้งนะ";
             resultDisplay.className = "error";
+            duoStreak = 0; 
             isSubmitting = false;
-
-            // โดนตัด Streak เมื่อตอบผิด
-            duoStreak = 0;
         }
     }
 
+    // 🛠️ อัปเดตให้บวกคะแนนเข้าตัวแปร scoreDuo เท่านั้น
+    function addScoreToUser(points) {
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        let userIndex = users.findIndex(u => u.username === currentUser);
+        if (userIndex !== -1) {
+            users[userIndex].scoreDuo = (users[userIndex].scoreDuo || 0) + points;
+            
+            // อัปเดตคะแนนรวม (Total Score)
+            users[userIndex].score = users[userIndex].scoreDuo + (users[userIndex].scoreBox || 0);
+            
+            localStorage.setItem("users", JSON.stringify(users));
+        }
+    }
+
+    function finishGame() {
+        let resultDisplay = document.getElementById("resultMessage");
+        resultDisplay.innerHTML = `🏆 เก่งมาก! คุณผ่านครบ 10 ด่านแล้ว!<br>คะแนนรวมที่ทำได้: ${totalScore} คะแนน`;
+        document.getElementById("submitBtn").disabled = true;
+        document.getElementById("userInput").disabled = true;
+        
+        localStorage.removeItem(`duo_persistence_${currentUser}`);
+        isSubmitting = false;
+    }
+
+    // 🛠️ ดึงคะแนนปัจจุบันของ Duo มาโชว์
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let user = users.find(u => u.username === currentUser);
-    totalScore = user && user.score ? user.score : 0;
+    totalScore = user && user.scoreDuo ? user.scoreDuo : 0;
 
     document.getElementById("hintTitle").textContent = "Glucode ૮₍'˶• . • ⑅ ₎ა";
     document.getElementById("scoreDisplay").textContent = `${currentUser} - Score: ${totalScore}`;
 
+    loadGameState();
     generateQuiz();
 
     document.getElementById("submitBtn").addEventListener("click", checkAnswer);
 
-    document.getElementById("userInput").addEventListener("keypress", function (event) {
+    document.getElementById("userInput").addEventListener("keypress", (event) => {
         if (event.key === "Enter") {
             event.preventDefault();
-            if (!isSubmitting) {
-                checkAnswer();
-            }
+            checkAnswer();
         }
     });
 });

@@ -1,5 +1,5 @@
 // =========================================
-// SCORE SYSTEM (Synced with User Database)
+// SCORE SYSTEM (BoxGame Dedicated)
 // =========================================
 const SCORE_MAP = {
     easy: 1,
@@ -13,17 +13,18 @@ function getCurrentUser() {
     return localStorage.getItem("loggedInUser") || "Guest";
 }
 
-// โหลดคะแนนเฉพาะของคนที่ Login อยู่จากฐานข้อมูล users
+// โหลดคะแนนเฉพาะของเกม BoxGame จากฐานข้อมูล users
 function loadScore() {
     const username = getCurrentUser();
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let user = users.find(function(u) {
         return u.username === username;
     });
-    return user && user.score ? user.score : 0;
+    // ดึงค่าจาก scoreBox แทน
+    return user && user.scoreBox ? user.scoreBox : 0;
 }
 
-// บันทึกคะแนนกลับเข้าไปในฐานข้อมูล users
+// บันทึกคะแนนกลับเข้าไปในฐานข้อมูล users (เฉพาะ BoxGame)
 function saveScore(newScore) {
     const username = getCurrentUser();
     let users = JSON.parse(localStorage.getItem("users")) || [];
@@ -32,7 +33,11 @@ function saveScore(newScore) {
     });
     
     if (userIndex !== -1) {
-        users[userIndex].score = newScore;
+        users[userIndex].scoreBox = newScore;
+        
+        // อัปเดตคะแนนรวม (Total Score) เผื่อไว้ใช้แสดงผลหน้า Profile
+        users[userIndex].score = (users[userIndex].scoreDuo || 0) + newScore;
+        
         localStorage.setItem("users", JSON.stringify(users));
     }
 }
