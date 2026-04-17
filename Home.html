@@ -14,10 +14,17 @@
 <body>
     <div id="welcomeOverlay" class="welcome-overlay">
         <div class="welcome-content">
-            <h1>Welcome Back, <span id="welcomeName" style="color: var(--btn);">Player</span>! 🎉</h1>
+            <h1>Welcome <span id="welcomeName" style="color: var(--btn);">Player</span> to our website</h1>
             <p>Ready to code?</p>
         </div>
     </div>
+
+    <script>
+        // ถ้าเช็คเจอว่า 'เคยดูแล้ว' ให้ซ่อนทันทีก่อนที่เบราว์เซอร์จะวาดหน้าเว็บเสร็จ!
+        if (sessionStorage.getItem("hasSeenWelcome")) {
+            document.getElementById("welcomeOverlay").style.display = "none";
+        }
+    </script>
 
     <nav style="width: 100%;">
         <div class="container" style="max-width: 1440px; padding: 1.5rem 2.25rem; background: transparent; box-shadow: none;">
