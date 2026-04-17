@@ -86,3 +86,34 @@
         transform: translateY(0);
     }
 }
+
+/* =========================================
+   Pagination Buttons (Show More / Show Less)
+========================================= */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* ระยะห่างระหว่างปุ่ม */
+    margin-top: 25px;
+}
+
+.show-more-btn {
+    padding: 12px 30px;
+    background-color: transparent;
+    color: var(--text);
+    border: 2px solid var(--subtext);
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    width: fit-content;
+    height: auto;
+    box-shadow: none; /* เอาเงาของ Global ออก */
+}
+
+.show-more-btn:hover {
+    background-color: var(--subtext);
+    color: var(--box);
+    transform: translateY(-3px);
+}
