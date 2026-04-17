@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navList = document.querySelector('nav ul');
 
     navLinks.forEach(link => {
-        if(link.textContent === 'Sign Up' || link.textContent === 'Sign In') {
+        if (link.textContent === 'Sign Up' || link.textContent === 'Sign In') {
             link.parentElement.style.display = 'none';
         }
     });
@@ -19,14 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let rootPath = "./";
     const currentPath = window.location.pathname.toLowerCase();
     if (currentPath.includes("quest") || currentPath.includes("game") || currentPath.includes("leaderboard") || currentPath.includes("learnpage")) {
-        rootPath = "../"; 
+        rootPath = "../";
     }
 
     const leaderBoardLink = Array.from(navLinks).find(link => link.textContent.trim() === 'Leader Board');
     if (leaderBoardLink) {
         const leaderBoardLi = leaderBoardLink.parentElement;
         leaderBoardLi.classList.add('user-dropdown-container');
-        
+
         leaderBoardLi.innerHTML = `
             <a href="#" class="user-dropdown-btn">
                 Leader Board <i id="leaderboardIcon" class="fa-solid fa-angle-down"></i>
@@ -61,24 +61,42 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="#" id="logoutBtn" class="dropdown-item">Logout</a>
         </div>
     `;
-    
+
     navList.appendChild(userLi);
 
     const style = document.createElement('style');
     style.innerHTML = `
-        .user-dropdown-btn { font-weight: bold; color: #333; }
-        .user-dropdown-btn:hover { color: #ff7518; }
+        .user-dropdown-btn { font-weight: 600; color: var(--subtext); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.3s ease; }
+        .user-dropdown-btn:hover { color: var(--btn); }
+        
         .user-dropdown-container { position: relative; display: inline-block; }
-        .user-dropdown-menu {
-            display: none; position: absolute; top: calc(100% + 10px); right: 0; background-color: #ffffff;
-            min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15); z-index: 1000; border-radius: 8px; text-align: left; padding: 0;
+        
+        /* 🛠️ สะพานล่องหน (Invisible Bridge) ป้องกันเมาส์ตกหลุม */
+        .user-dropdown-container::after {
+            content: "";
+            position: absolute;
+            bottom: -20px; /* ยื่นพื้นที่ลงไปด้านล่าง 20px เพื่อเชื่อมกับเมนู */
+            left: -15px;   /* ขยายพื้นที่ออกซ้ายขวาเผื่อเมาส์เลื่อนเฉียง */
+            right: -15px;
+            height: 20px;
+            background-color: transparent;
+            z-index: 999;
         }
-        .user-dropdown-menu::before { content: ""; position: absolute; top: -10px; left: 0; width: 100%; height: 10px; background-color: transparent; }
+        
+        /* ปรับตำแหน่งกล่องเมนูให้พอดีกับสะพานล่องหน */
+        .user-dropdown-menu {
+            display: none; position: absolute; top: calc(100% + 15px); right: 0; background-color: var(--box);
+            min-width: 170px; box-shadow: var(--shadow); z-index: 1000; border-radius: 12px; text-align: left; padding: 0;
+            border: 1px solid var(--border); overflow: hidden;
+        }
+        
         .user-dropdown-container:hover .user-dropdown-menu { display: block; }
-        .dropdown-item { color: #333 !important; padding: 12px 16px; text-decoration: none; display: block; font-size: 1.25rem; transition: background-color 0.2s ease; font-weight: normal !important; }
-        .dropdown-item:hover { background-color: #f0f0f0 !important; }
-        .coin-display { background-color: #fffaf0; color: #d4a017 !important; cursor: default; font-weight: bold !important; }
-        .dropdown-divider { margin: 0; border: 0; border-top: 1px solid #eee; }
+        
+        .dropdown-item { color: var(--text) !important; padding: 12px 16px; text-decoration: none; display: block; font-size: 1.1rem; transition: all 0.2s ease; font-weight: 500 !important; }
+        .dropdown-item:hover { background-color: var(--bg) !important; color: var(--btn) !important; padding-left: 20px; }
+        
+        .coin-display { background-color: var(--bg); color: #d4a017 !important; cursor: default; font-weight: bold !important; }
+        .dropdown-divider { margin: 0; border: 0; border-top: 1px solid var(--border); }
     `;
     document.head.appendChild(style);
 
@@ -87,5 +105,5 @@ document.addEventListener('DOMContentLoaded', () => {
     userLi.addEventListener('mouseleave', () => { dropdownIcon.classList.replace('fa-angle-up', 'fa-angle-down'); });
 
     const heroGreeting = document.querySelector('.header h2 span');
-    if(heroGreeting) { heroGreeting.textContent = loggedInUser; }
+    if (heroGreeting) { heroGreeting.textContent = loggedInUser; }
 });

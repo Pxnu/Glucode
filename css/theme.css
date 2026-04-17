@@ -13,11 +13,11 @@
     /* ตัวอักษรสีน้ำเงินเข้มจัด (แทนสีดำ) */
     --subtext: #64748B;
     /* ตัวอักษรย่อยสีเทา */
-    --btn: #FF7518;
+    --btn: #4F46E5;
     /* สีส้ม Signature ของ Glucode */
     --btn-text: #FFFFFF;
     /* สีตัวอักษรบนปุ่ม */
-    --hover: #EA580C;
+    --hover: #4338CA;
     /* สีส้มเข้มตอนโฮเวอร์ */
     --border: #E2E8F0;
     /* สีขอบบางๆ */
@@ -31,9 +31,9 @@ body.dark {
     --box: #1E293B;
     --text: #F8FAFC;
     --subtext: #94A3B8;
-    --btn: #FF7518;
+    --btn: #0EA5E9;
     --btn-text: #FFFFFF;
-    --hover: #EA580C;
+    --hover: #0284C7;
     --border: #334155;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
@@ -95,6 +95,7 @@ body.easter {
     border: 1px solid var(--border);
     transition: all 0.3s ease;
 }
+
 
 .theme-switcher .theme-btn {
     width: 42px !important;

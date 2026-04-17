@@ -64,8 +64,9 @@
     font-weight: 500;
 }
 
-/* เพิ่มแอนิเมชันให้ชื่อ User เรืองแสงส้ม */
+/* แอนิเมชันให้ชื่อ User เรืองแสงตามสีธีม */
 #welcomeName {
     color: var(--btn);
-    text-shadow: 0 0 20px rgba(255, 117, 24, 0.3);
+    /* เปลี่ยนจาก rgba สีส้ม เป็นสี var(--btn) อัตโนมัติ */
+    text-shadow: 0 0 15px var(--btn); 
 }
