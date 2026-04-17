@@ -15,11 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // คำนวณ Path อัตโนมัติสำหรับลิงก์ (ลบคำว่า Glucode ออก)
+    // 🛠️ แก้ไขตรงนี้: เพิ่ม learnpage เข้าไปในเงื่อนไขตรวจสอบโฟลเดอร์ย่อย
     let rootPath = "./";
     const currentPath = window.location.pathname.toLowerCase();
-    if (currentPath.includes("quest") || currentPath.includes("game") || currentPath.includes("leaderboard")) {
-        // ถ้าอยู่ลึกเข้าไป 1 โฟลเดอร์ ให้ถอยกลับมา 1 ขั้น
+    if (currentPath.includes("quest") || currentPath.includes("game") || currentPath.includes("leaderboard") || currentPath.includes("learnpage")) {
         rootPath = "../"; 
     }
 
