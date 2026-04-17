@@ -28,21 +28,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
             setTimeout(() => {
                document.body.style.cursor = 'default';
-               window.location.href = '../Glucode Game/duo.html'; // ลิงก์ไปหน้าเกม
+               // แก้ไข Path ตรงนี้
+               window.location.href = './Glucode Game/duo.html'; 
             }, 800);
         });
     }
 
     if(choiceBoxGame) {
         choiceBoxGame.addEventListener('click' , (e) => {
-            document.body.style.cursor = 'wait'
-            choiceBoxGame.style.cursor =  'wait'
-            choiceBoxGame.style.pointerEvents = 'none'
-            choiceBoxGame.textContent = 'Loading....'
+            document.body.style.cursor = 'wait';
+            choiceBoxGame.style.cursor =  'wait';
+            choiceBoxGame.style.pointerEvents = 'none';
+            choiceBoxGame.textContent = 'Loading....';
 
             setTimeout(() => {
-                document.body.style.cursor = 'default'
-                window.location.href = '../Glucode Game/BoxGame.html'
+                document.body.style.cursor = 'default';
+                // แก้ไข Path ตรงนี้
+                window.location.href = './Glucode Game/BoxGame.html';
             }, 800);
         })
     }

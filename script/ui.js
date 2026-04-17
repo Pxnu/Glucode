@@ -15,11 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // คำนวณ Path อัตโนมัติสำหรับลิงก์
+    // คำนวณ Path อัตโนมัติสำหรับลิงก์ (ลบคำว่า Glucode ออก)
     let rootPath = "./";
     const currentPath = window.location.pathname.toLowerCase();
     if (currentPath.includes("quest") || currentPath.includes("game") || currentPath.includes("leaderboard")) {
-        rootPath = "../Glucode/";
+        // ถ้าอยู่ลึกเข้าไป 1 โฟลเดอร์ ให้ถอยกลับมา 1 ขั้น
+        rootPath = "../"; 
     }
 
     const leaderBoardLink = Array.from(navLinks).find(link => link.textContent.trim() === 'Leader Board');
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 Leader Board <i id="leaderboardIcon" class="fa-solid fa-angle-down"></i>
             </a>
             <div class="user-dropdown-menu" style="left: 50%; transform: translateX(-50%); text-align: center;">
-                <a href="../Glucode LeaderBoard/leader_board_duo.html" class="dropdown-item">Duo</a>
+                <a href="${rootPath}Glucode LeaderBoard/leader_board_duo.html" class="dropdown-item">Duo</a>
                 <a href="#" class="dropdown-item">Jigsaws</a> 
             </div>
         `;
@@ -56,8 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <hr class="dropdown-divider">
             <a href="${rootPath}Profile.html" class="dropdown-item">Profile</a>
             <a href="${rootPath}Shop.html" class="dropdown-item">Shop</a>
-            <a href="../Glucode quest/quest.html" class="dropdown-item">Quests</a>
-            <a href="../Glucode quest/achievement.html" class="dropdown-item">Achievement</a>
+            <a href="${rootPath}Glucode quest/quest.html" class="dropdown-item">Quests</a>
+            <a href="${rootPath}Glucode quest/achievement.html" class="dropdown-item">Achievement</a>
             <a href="#" id="logoutBtn" class="dropdown-item">Logout</a>
         </div>
     `;
