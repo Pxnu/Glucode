@@ -1,184 +1,149 @@
-let userStats = JSON.parse(localStorage.getItem('userStats')) || {
-    coins: 0
-};
-
-let gameRecords = JSON.parse(localStorage.getItem('gameRecords')) || [];
-
-let quests = [
-    {
-        id: 1,
-        title: "Milestone: Rookie Coder",
-        desc: "เล่นเกมจิ๊กซอว์ให้ครบ 30 เกม",
-        target: 30,
-        type: "milestone",
-        difficulty: "easy",
-        reward: 100
-    },
-    {
-        id: 2,
-        title: "Language Master",
-        desc: "เรียนรู้ภาษาโค้ดได้ 5 ครั้ง",
-        target: 5,
-        type: "lesson",
-        difficulty: "amateur",
-        reward: 150
-    },
-    {
-        id: 3,
-        title: "Challenger: Expert",
-        desc: "ชนะเกมระดับ Expert โดยไม่ใช้คำใบ้",
-        target: 10,
-        type: "challenger",
-        difficulty: "expert",
-        reward: 450
-    }
+// ข้อมูลโจทย์เควสที่เชื่อมกับเกมโดยตรง
+const questsData = [
+    { id: "q_duo_5", title: "Duo Beginner", desc: "ตอบคำถามในเกม Duo ให้ถูกครบ 5 ข้อ", target: 5, reward: 20 },
+    { id: "q_box_3", title: "BoxGame Explorer", desc: "ต่อจิ๊กซอว์โค้ดใน BoxGame ให้ถูก 3 ด่าน", target: 3, reward: 15 },
+    { id: "q_streak_3", title: "On Fire! 🔥", desc: "ทำคอมโบ (Streak) ตอบถูกติดกัน 3 ครั้งรวด", target: 3, reward: 30 },
+    { id: "q_box_h1", title: "Heading Master", desc: "ประกอบโค้ดสร้างหัวข้อ <h1> ในเกม BoxGame", target: 1, reward: 10 },
+    { id: "q_score_50", title: "นักสะสมแต้ม", desc: "สะสมคะแนนจากการเล่นเกม 50 คะแนน", target: 50, reward: 50 }
 ];
 
-let claimedRewards = JSON.parse(localStorage.getItem('claimedRewards')) || {};
-
-
-function recordGame(gameData) {
-    gameRecords.push({
-        ...gameData,
-        playedAt: new Date().toISOString()
-    });
-
-    localStorage.setItem('gameRecords', JSON.stringify(gameRecords));
-    updateUI();
+function getUserData() {
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    let currentUser = localStorage.getItem('loggedInUser');
+    let index = users.findIndex(u => u.username === currentUser);
+    return { users, user: users[index], index };
 }
 
-function getQuestProgress(quest) {
-    let count = 0;
+// 🌟 ฟังก์ชันหลักสำหรับรับค่าจากหน้าเกมมาอัปเดตความคืบหน้า
+window.updateQuestProgress = function(questId, amount = 1) {
+    let { users, user, index } = getUserData();
+    if (!user) return;
 
-    gameRecords.forEach(game => {
-        if (quest.type === "milestone" && game.type === "puzzle") {
-            count++;
+    if (!user.quests) user.quests = {}; 
+    if (!user.claimedQuests) user.claimedQuests = [];
+
+    // ถ้าเควสนี้รับรางวัลไปแล้ว ไม่ต้องนับต่อ
+    if (user.claimedQuests.includes(questId)) return;
+
+    let currentProgress = user.quests[questId] || 0;
+    let questInfo = questsData.find(q => q.id === questId);
+    if (!questInfo) return;
+
+    if (currentProgress < questInfo.target) {
+        // ถ้านับ Streak ให้แทนที่ด้วยค่าสูงสุด / ถ้าเควสอื่นให้บวกเพิ่ม
+        if (questId === "q_streak_3") {
+            user.quests[questId] = Math.max(currentProgress, amount);
+        } else {
+            user.quests[questId] = Math.min(currentProgress + amount, questInfo.target);
+        }
+        
+        localStorage.setItem('users', JSON.stringify(users));
+
+        // แจ้งเตือนเมื่อทำเควสสำเร็จ
+        if (user.quests[questId] >= questInfo.target && currentProgress < questInfo.target) {
+            showQuestNotification(questInfo.title);
         }
 
-        if (quest.type === "lesson" && game.type === "lesson") {
-            count++;
-        }
+        // รีเฟรชหน้าจอถ้ากำลังเปิดหน้า Quest อยู่
+        if (document.getElementById("quest-list")) renderQuests();
+    }
+};
 
-        if (
-            quest.type === "challenger" &&
-            game.difficulty === "expert" &&
-            game.isWin &&
-            !game.usedHint
-        ) {
-            count++;
-        }
-    });
+// เด้ง Popup แจ้งเตือนเวลาเควสเสร็จ
+function showQuestNotification(title) {
+    let popup = document.getElementById("achievement-popup");
+    let popupText = document.getElementById("popup-text");
 
-    return count;
+    if (!popup) {
+        popup = document.createElement("div");
+        popup.id = "achievement-popup";
+        popupText = document.createElement("p");
+        popupText.id = "popup-text";
+        popup.appendChild(popupText);
+        document.body.appendChild(popup);
+    }
+
+    popupText.textContent = "📜 เควสสำเร็จ: " + title;
+    popup.classList.remove("show");
+    setTimeout(() => popup.classList.add("show"), 50);
+    setTimeout(() => popup.classList.remove("show"), 4000);
 }
 
-function updateUI() {
-    document.getElementById('user-coins').innerText = userStats.coins.toLocaleString();
-    renderQuests();
-}
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById("quest-list")) {
+        renderQuests();
+        updateUserStatsUI();
+    }
+});
 
 function renderQuests() {
-    const listElement = document.getElementById('quest-list');
-    listElement.innerHTML = '';
+    let list = document.getElementById("quest-list");
+    if (!list) return;
 
-    quests.forEach(quest => {
-        const current = getQuestProgress(quest);
-        const isCompleted = current >= quest.target;
-        const isClaimed = claimedRewards[quest.id];
-        const progressPercent = Math.min((current / quest.target) * 100, 100);
-        const color = getDifficultyColor(quest.difficulty);
+    list.innerHTML = "";
+    let { user } = getUserData();
+    if (!user) return;
 
-        const card = `
-            <div class="quest-card">
-                <div class="quest-header">
-                    <div>
-                        <h3 style="margin:0">${quest.title}</h3>
-                        <p class="subtext" style="margin: 5px 0">${quest.desc}</p>
-                        <div class="reward-text">รางวัล: 💰 ${quest.reward}</div>
-                    </div>
-                    <span class="badge" style="background: ${color}">${quest.difficulty}</span>
+    if (!user.quests) user.quests = {};
+    if (!user.claimedQuests) user.claimedQuests = [];
+
+    questsData.forEach(q => {
+        let progress = user.quests[q.id] || 0;
+        let isCompleted = progress >= q.target;
+        let isClaimed = user.claimedQuests.includes(q.id);
+        let progressPercent = (progress / q.target) * 100;
+
+        let li = document.createElement("div");
+        li.className = "quest-item " + (isClaimed ? "claimed" : (isCompleted ? "completed" : ""));
+        
+        li.innerHTML = `
+            <div class="quest-info">
+                <h3>${q.title}</h3>
+                <p>${q.desc}</p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: ${progressPercent}%"></div>
                 </div>
-                
-                <div class="progress-container">
-                    <div class="progress-bar" style="width: ${progressPercent}%; background: ${color}"></div>
-                </div>
-                
-                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 10px;">
-                    <span>ความคืบหน้า</span>
-                    <span>${current} / ${quest.target}</span>
-                </div>
-                
-                <button class="btn-action"
-                    ${isCompleted && !isClaimed ? `onclick="claimReward(${quest.id})"` : ''}
-                    style="${
-                        isClaimed
-                            ? 'background: gray;'
-                            : isCompleted
-                            ? 'background: #4caf50;'
-                            : ''
-                    }">
-                    ${
-                        isClaimed
-                            ? 'รับแล้ว'
-                            : isCompleted
-                            ? 'รับรางวัล'
-                            : 'เล่นเลย'
-                    }
-                </button>
+                <span class="progress-text">${progress} / ${q.target}</span>
+            </div>
+            <div class="quest-action">
+                <div class="reward">💰 ${q.reward}</div>
+                ${isClaimed 
+                    ? `<button class="claim-btn claimed-btn" disabled>รับแล้ว ✅</button>`
+                    : `<button class="claim-btn ${isCompleted ? 'ready' : ''}" 
+                        ${!isCompleted ? 'disabled' : `onclick="claimReward('${q.id}', ${q.reward})"`}>
+                        ${isCompleted ? 'รับรางวัล' : 'ยังไม่สำเร็จ'}
+                       </button>`
+                }
             </div>
         `;
-        listElement.innerHTML += card;
+        list.appendChild(li);
     });
 }
 
-window.claimReward = function (questId) {
-    const quest = quests.find(q => q.id === questId);
-    const current = getQuestProgress(quest);
+// ระบบกดรับรางวัล
+window.claimReward = function(questId, reward) {
+    let { users, user, index } = getUserData();
+    if (!user) return;
 
-    if (current < quest.target) {
-        alert("ยังไม่ครบเงื่อนไข!");
-        return;
+    if (!user.claimedQuests) user.claimedQuests = [];
+    if (!user.coins) user.coins = 0;
+
+    if (!user.claimedQuests.includes(questId)) {
+        user.claimedQuests.push(questId);
+        user.coins += reward;
+        localStorage.setItem('users', JSON.stringify(users));
+
+        renderQuests();
+        updateUserStatsUI();
+        
+        let coinDisplay = document.querySelector('.coin-display strong');
+        if (coinDisplay) coinDisplay.textContent = user.coins;
     }
-
-    if (claimedRewards[questId]) {
-        alert("คุณรับรางวัลไปแล้ว!");
-        return;
-    }
-
-    userStats.coins += quest.reward;
-    claimedRewards[questId] = true;
-
-    localStorage.setItem('userStats', JSON.stringify(userStats));
-    localStorage.setItem('claimedRewards', JSON.stringify(claimedRewards));
-
-    alert(`ยินดีด้วย! คุณได้รับ 💰 ${quest.reward} เหรียญ`);
-    updateUI();
 };
 
-function getDifficultyColor(level) {
-    switch (level) {
-        case 'easy': return 'var(--easy)';
-        case 'amateur': return 'var(--medium)';
-        case 'difficult': return 'var(--hard)';
-        case 'expert': return 'var(--expert)';
-        default: return '#888';
-    }
+function updateUserStatsUI() {
+    let { user } = getUserData();
+    if (!user) return;
+    let coinUI = document.getElementById("user-coins");
+    if (coinUI) coinUI.textContent = user.coins || 0;
 }
-
-document.addEventListener('DOMContentLoaded', updateUI);
-
-window.playPuzzle = () => {
-    recordGame({ type: "puzzle" });
-};
-
-window.learnLesson = () => {
-    recordGame({ type: "lesson" });
-};
-
-window.winExpert = () => {
-    recordGame({
-        difficulty: "expert",
-        isWin: true,
-        usedHint: false
-    });
-};

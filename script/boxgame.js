@@ -212,6 +212,19 @@ function submitAnswer() {
         }
         // ===================================
 
+        // 📜 ===== ระบบเช็ค QUEST ===== 📜
+        if (typeof window.updateQuestProgress === "function") {
+            window.updateQuestProgress("q_box_3", 1); // บวกยอด BoxGame
+            window.updateQuestProgress("q_streak_3", boxStreak); // ส่งค่า Streak
+            window.updateQuestProgress("q_score_50", 10); // แจก 10 คะแนนสำหรับสะสมเควส
+            
+            // เช็คเควสพิเศษเจาะจง (ถ้าใช้คำสั่ง <h1>)
+            let answerStr = answerList.join("").toLowerCase();
+            if (answerStr.includes("<h1>")) {
+                window.updateQuestProgress("q_box_h1", 1);
+            }
+        }
+
         if (typeof addScore === "function") addScore(currentDifficulty);
 
         setTimeout(() => {

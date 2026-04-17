@@ -175,6 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // ===================================
 
+            // 📜 ===== ระบบเช็ค QUEST ===== 📜
+            if (typeof window.updateQuestProgress === "function") {
+                window.updateQuestProgress("q_duo_5", 1); // บวกยอดเกม Duo
+                window.updateQuestProgress("q_streak_3", duoStreak); // ส่งค่า Streak
+                window.updateQuestProgress("q_score_50", earnedScore); // สะสมคะแนน
+            }
+
             if (currentStage < maxStage) {
                 currentStage++;
                 setTimeout(() => {
