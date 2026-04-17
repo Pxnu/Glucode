@@ -111,6 +111,8 @@ h2 {
     transition: all 0.3s ease;
     font-size: 1.15rem;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    min-height: 100px;
+
 }
 
 .btn-submit:hover {
