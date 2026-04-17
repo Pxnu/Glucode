@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. ดึงชื่อผู้ใช้ที่ถูกต้องจากระบบ (แก้จาก currentUser เป็น loggedInUser)
     let currentUser = localStorage.getItem("loggedInUser");
-    
-    // ไม่ต้องมีเช็คเด้งกลับหน้า Login ตรงนี้แล้ว เพราะไฟล์ auth.js จัดการให้แล้ว
 
     let currentStage = 1;
     let maxStage = 10;
@@ -10,7 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let isSubmitting = false;
     let totalScore = 0;
 
-    // --- ข้อมูลโจทย์ ---
+    // --- ตัวแปรสำหรับ Achievement ---
+    let duoCorrectTotal = 0;
+    let duoStreak = 0;
+    let questionStartTime = 0;
+
+    // --- ข้อมูลโจทย์ (แบบเต็มครบทุกข้อ) ---
     const quizData = {
         level1: [
             { tags: ["<h1>", "Welcome", "</h1>"], hint: "สร้างหัวเรื่องใหญ่ 'Welcome'" },
@@ -110,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("userInput").value = "";
         document.getElementById("userInput").disabled = false;
         document.getElementById("resultMessage").innerHTML = "";
-        document.getElementById("resultMessage").className = ""; 
+        document.getElementById("resultMessage").className = "";
 
         let level = getLevelByStage(currentStage);
         const levelArray = quizData[level];
@@ -120,6 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
         correctAnswer = currentItem.tags.join('');
         document.getElementById("hintText").textContent = `Stage ${currentStage}: ${currentItem.hint}`;
         document.getElementById("levelDisplay").textContent = `Level: ${currentStage} / ${maxStage}`;
+
+        // เริ่มจับเวลาเมื่อโจทย์แสดง
+        questionStartTime = Date.now();
     }
 
     function normalizeAnswer(str) {
@@ -127,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkAnswer() {
-        if (isSubmitting) return; 
-        isSubmitting = true;      
+        if (isSubmitting) return;
+        isSubmitting = true;
 
         let answerField = document.getElementById("userInput");
         let resultDisplay = document.getElementById("resultMessage");
@@ -138,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userTyped === "") {
             resultDisplay.textContent = "⚠️ กรุณากรอกคำตอบ";
             resultDisplay.className = "error";
-            isSubmitting = false; 
+            isSubmitting = false;
             return;
         }
 
@@ -151,15 +156,32 @@ document.addEventListener('DOMContentLoaded', () => {
             resultDisplay.className = "success";
 
             submitBtn.disabled = true;
-            answerField.disabled = true; 
+            answerField.disabled = true;
+
+            // 🏆 ===== ระบบเช็ค ACHIEVEMENT ===== 🏆
+            let timeTaken = (Date.now() - questionStartTime) / 1000;
+            duoCorrectTotal++;
+            duoStreak++;
+
+            if (typeof window.unlockAchievement === "function") {
+                window.unlockAchievement("quiz-first");
+                if (duoCorrectTotal >= 3) window.unlockAchievement("quiz-3");
+                if (duoCorrectTotal >= 10) {
+                    window.unlockAchievement("quiz-10");
+                    window.unlockAchievement("quiz-master");
+                }
+                if (duoStreak >= 5) window.unlockAchievement("quiz-5");
+                if (timeTaken <= 5) window.unlockAchievement("quiz-speed");
+            }
+            // ===================================
 
             if (currentStage < maxStage) {
                 currentStage++;
                 setTimeout(() => {
                     generateQuiz();
                     submitBtn.disabled = false;
-                    answerField.disabled = false; 
-                    isSubmitting = false;         
+                    answerField.disabled = false;
+                    isSubmitting = false;
                 }, 1500);
             } else {
                 resultDisplay.innerHTML = `🏆 ยินดีด้วย! คุณผ่านทุกสเตจแล้ว!<br>คะแนนรวม: ${totalScore} คะแนน`;
@@ -170,11 +192,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             resultDisplay.textContent = "❌ ยังไม่ถูก ลองอีกครั้งนะ";
             resultDisplay.className = "error";
-            isSubmitting = false; 
+            isSubmitting = false;
+
+            // โดนตัด Streak เมื่อตอบผิด
+            duoStreak = 0;
         }
     }
 
-    // โหลดคะแนนปัจจุบันของผู้ใช้
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let user = users.find(u => u.username === currentUser);
     totalScore = user && user.score ? user.score : 0;
@@ -184,10 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     generateQuiz();
 
-    // ผูก Event Click ให้ปุ่ม Submit
     document.getElementById("submitBtn").addEventListener("click", checkAnswer);
 
-    // ทำให้กด Enter ได้
     document.getElementById("userInput").addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
