@@ -4,15 +4,15 @@
 ========================================= */
 
 /* 1. Dark Theme */
-body.dark { 
+body.dark {
     /* สำหรับหน้า Global */
-    --bg: #111; 
-    --box: #1a1a1a; 
-    --text: #eee; 
-    --subtext: #aaa; 
-    --btn: #fff; 
-    --btn-text: #111; 
-    --hover: #ffb347; 
+    --bg: #111;
+    --box: #1a1a1a;
+    --text: #eee;
+    --subtext: #aaa;
+    --btn: #fff;
+    --btn-text: #111;
+    --hover: #ffb347;
 
     /* สำหรับหน้า BoxGame */
     --base: #111;
@@ -23,15 +23,15 @@ body.dark {
 }
 
 /* 2. Halloween Theme */
-body.halloween { 
+body.halloween {
     /* สำหรับหน้า Global */
-    --bg: #1a0f0f; 
-    --box: #2b1a1a; 
-    --text: #ff7518; 
-    --subtext: #ffb347; 
-    --btn: #ff7518; 
-    --btn-text: #000; 
-    --hover: #e66a15; 
+    --bg: #1a0f0f;
+    --box: #2b1a1a;
+    --text: #ff7518;
+    --subtext: #ffb347;
+    --btn: #ff7518;
+    --btn-text: #000;
+    --hover: #e66a15;
 
     /* สำหรับหน้า BoxGame */
     --base: #1a0f0f;
@@ -42,15 +42,15 @@ body.halloween {
 }
 
 /* 3. Winter Theme */
-body.winter { 
+body.winter {
     /* สำหรับหน้า Global */
-    --bg: #e6f7ff; 
-    --box: #ffffff; 
-    --text: #0b3d91; 
-    --subtext: #5a8fd8; 
-    --btn: #0b3d91; 
-    --btn-text: #fff; 
-    --hover: #082b66; 
+    --bg: #e6f7ff;
+    --box: #ffffff;
+    --text: #0b3d91;
+    --subtext: #5a8fd8;
+    --btn: #0b3d91;
+    --btn-text: #fff;
+    --hover: #082b66;
 
     /* สำหรับหน้า BoxGame */
     --base: #e6f7ff;
@@ -61,15 +61,15 @@ body.winter {
 }
 
 /* 4. Easter Theme */
-body.easter { 
+body.easter {
     /* สำหรับหน้า Global */
-    --bg: #fff0f6; 
-    --box: #ffffff; 
-    --text: #ff69b4; 
-    --subtext: #ffb6c1; 
-    --btn: #ff69b4; 
-    --btn-text: #fff; 
-    --hover: #e0529d; 
+    --bg: #fff0f6;
+    --box: #ffffff;
+    --text: #ff69b4;
+    --subtext: #ffb6c1;
+    --btn: #ff69b4;
+    --btn-text: #fff;
+    --hover: #e0529d;
 
     /* สำหรับหน้า BoxGame */
     --base: #fff0f6;
@@ -85,14 +85,15 @@ body.easter {
 .theme-switcher {
     position: fixed;
     bottom: 25px;
-    left: 25px; /* วางซ้ายล่าง เพื่อหลบ Popup ของ Achievement ขวาล่าง */
+    left: 25px;
+    /* วางซ้ายล่าง เพื่อหลบ Popup ของ Achievement ขวาล่าง */
     display: flex;
-    flex-direction: row; 
+    flex-direction: row;
     gap: 8px;
     background: var(--box);
     padding: 10px 15px;
     border-radius: 50px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     z-index: 9999;
     border: 2px solid rgba(150, 150, 150, 0.15);
     transition: background-color 0.3s;
@@ -127,4 +128,22 @@ body.easter {
     color: white !important;
     box-shadow: 0 5px 15px rgba(255, 117, 24, 0.4) !important;
     transform: scale(1.1) !important;
+}
+
+/* =========================================
+   Force Sync Theme Transition (แก้ปัญหาสีเหลื่อม)
+========================================= */
+body,
+nav,
+.container,
+.game-card,
+.quest-item,
+.user-dropdown-menu,
+.theme-switcher,
+.theme-btn,
+.popup-box,
+.answer-container,
+#choices,
+#answerArea {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
