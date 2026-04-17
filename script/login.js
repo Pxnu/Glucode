@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isLoginMode = true;
 
+    // ==========================================
+    // 1. ระบบสลับโหมด Login / Register
+    // ==========================================
     toggleModeBtn.addEventListener('click', () => {
         isLoginMode = !isLoginMode;
         message.textContent = '';
@@ -30,6 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ==========================================
+    // 2. จัดการเมื่อกดปุ่ม Login / Register
+    // ==========================================
     mainBtn.addEventListener('click', () => {
         const username = document.getElementById('username').value.trim();
         const password = document.getElementById('password').value.trim();
@@ -52,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (user.hasSeenTutorial) {
                         window.location.href = './Home.html';
                     } else {
-                        // ถ้ายังไม่เคยดู ให้ไปหน้า Tutorial (ปรับ Path ตามจริง)
+                        // ถ้ายังไม่เคยดู ให้ไปหน้า Tutorial
                         window.location.href = '../Glucode tutorial/tutorial.html';
                     }
                 }, 1000);
@@ -69,12 +75,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 username: username,
                 email: email,
                 password: password,
+                scoreBox: 0,
+                scoreDuo: 0,
                 score: 0,
                 coins: 0,
                 achievements: [],
                 quests: {},
                 claimedQuests: [],
-                hasSeenTutorial: false // 🔥 ตั้งค่าเริ่มต้นเป็นยังไม่เคยดู
+                hasSeenTutorial: false 
             });
 
             localStorage.setItem('users', JSON.stringify(users));
@@ -83,6 +91,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ==========================================
+    // 3. ⌨️ รองรับการกดปุ่ม Enter
+    // ==========================================
+    const inputs = document.querySelectorAll('.input-group input');
+    inputs.forEach(input => {
+        input.addEventListener('keypress', (e) => {
+            // ถ้าปุ่มที่กดคือ Enter (Key Code: Enter)
+            if (e.key === 'Enter') {
+                e.preventDefault(); // ป้องกันไม่ให้หน้าเว็บรีเฟรช
+                mainBtn.click();    // จำลองการคลิกที่ปุ่ม Login / Register
+            }
+        });
+    });
+
+    // ฟังก์ชันช่วยแสดงข้อความแจ้งเตือน
     function showMessage(text, color) {
         message.textContent = text;
         message.style.color = color;
