@@ -1,0 +1,109 @@
+/* =========================================
+   Learn Page Layout & Cards Styles
+========================================= */
+
+.learn-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    text-align: center;
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.learn-header h1 {
+    font-size: 2.8rem;
+    color: var(--text);
+    margin-bottom: 10px;
+}
+
+.learn-header p {
+    font-size: 1.2rem;
+    color: var(--subtext);
+    margin-bottom: 50px;
+}
+
+.game-cards-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.game-card {
+    background: var(--box);
+    border: 2px solid transparent;
+    border-radius: 24px;
+    padding: 40px 30px;
+    width: 350px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-card:hover {
+    transform: translateY(-12px);
+    border-color: var(--hover);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.game-icon {
+    font-size: 3.5rem;
+    color: var(--hover);
+    margin-bottom: 20px;
+    background: rgba(255, 117, 24, 0.1); 
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.game-card:hover .game-icon {
+    transform: scale(1.1);
+}
+
+.game-card h3 {
+    font-size: 1.8rem;
+    color: var(--text);
+    margin-bottom: 15px;
+}
+
+.game-card p {
+    font-size: 1.1rem;
+    color: var(--subtext);
+    margin-bottom: 30px;
+    line-height: 1.6;
+    flex-grow: 1; /* ดันปุ่มลงไปด้านล่างสุดเสมอ */
+}
+
+.play-btn {
+    width: 100%;
+    height: 55px;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    margin: 0;
+}
+
+.duo-btn {
+    background-color: var(--btn);
+    color: var(--btn-text);
+}
+
+.boxgame-btn {
+    background-color: transparent;
+    color: var(--hover);
+    border: 2px solid var(--hover);
+    box-shadow: none;
+}
+
+.boxgame-btn:hover {
+    background-color: var(--hover);
+    color: white;
+}
