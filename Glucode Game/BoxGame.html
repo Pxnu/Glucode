@@ -1,13 +1,79 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Glucode - HTML Learning Game</title>
-    <link rel="stylesheet" href="../css/boxgame.css">
+<meta charset="UTF-8">
+<title>Glucode - HTML Learning Game</title>
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/navbar.css">
+<link rel="stylesheet" href="../css/boxgame.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    /* ==============================================================
+       แทรก CSS เฉพาะหน้านี้ เพื่อไม่ให้ไปยุ่งกับไฟล์ boxgame.css
+    ============================================================== */
+    
+    /* 1. บังคับให้หน้าเว็บเรียงจากบนลงล่าง Navbar จะได้ติดขอบบน (ทับคำสั่งเดิมของ Boxgame) */
+    body {
+        justify-content: flex-start !important;
+    }
+
+    /* 2. ดันกล่องเกมลงมาไม่ให้ชิด Navbar เกินไป */
+    .container {
+        margin-top: 40px; 
+    }
+
+    /* 3. สร้างคลาส nav-wrapper มาใช้แทน .container สำหรับ Navbar จะได้ไม่ตีกับกล่องเกม */
+    nav .nav-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 2.25rem;
+        box-sizing: border-box;
+    }
+    nav .nav-wrapper .logo a {
+        color: var(--text);
+        font-weight: bold;
+        font-size: 2rem;
+        text-decoration: none;
+    }
+    nav .nav-wrapper ul {
+        display: flex;
+        margin: 0;
+        padding: 0;
+    }
+    nav .nav-wrapper ul li {
+        margin: 0 1rem;
+    }
+    nav .nav-wrapper ul > li > a {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text);
+        text-decoration: none;
+        transition: transform 0.3s, color 0.3s;
+    }
+    nav .nav-wrapper ul > li > a:hover {
+        color: var(--hover);
+    }
+</style>
 </head>
 
 <body>
+
+    <nav style="width: 100%;">
+        <div class="nav-wrapper">
+            <div class="logo">
+                <a href="../Glucode/Home.html">Glucode</a>
+            </div>
+            <ul>
+              <li><a href="../Glucode/Home.html">Home</a></li>
+              <li><a href="#">Learn</a></li>
+              <li><a href="#">Leader Board</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <div class="container">
         <h1 style="margin-top:0; margin-bottom:20px; font-size:2.2rem; text-align:left;">Glucode</h1>
@@ -24,21 +90,19 @@
         <div class="control-buttons">
             <button class="btn-secondaryDel" onclick="removeLast()">Delete</button>
             <button class="btn-secondaryRe" onclick="resetBoard()">&#10227;</button>
+            <button class="btn-secondarySkip" onclick="skipToFinish()" style="background: transparent; border: 2px solid var(--subtext); color: var(--subtext); padding: 8px 15px; margin-left: 5px; border-radius: 8px; cursor: pointer; font-size: 17px; font-weight: bold;">Skip</button>
             <div id="scoreTitle"></div>
         </div>
 
         <div id="result"></div>
-
     </div>
 
     <div id="finishPopup" class="popup-overlay">
         <div class="popup-box">
             <button class="close-popup" onclick="closePopup()">×</button>
-
             <h2>🎉 ยินดีด้วย!</h2>
             <p>คุณเล่นจบครบทุกด่านแล้ว</p>
             <p id="finalScoreText">Score: 0</p>
-
             <div class="popup-buttons">
                 <button onclick="playAgain()">เล่นอีกครั้ง</button>
                 <button onclick="goHome()" class="goHome">กลับหน้าหลัก</button>
@@ -46,21 +110,11 @@
         </div>
     </div>
 
-    <select class="theme-select-game" id="themeSelect" onchange="setTheme(this.value)">
-        <option value="light">Light Mode</option>
-        <option value="dark">Dark Mode</option>
-        <option value="halloween">Halloween</option>
-        <option value="winter">Winter</option>
-        <option value="easter">Easter</option>
-    </select>
-
-    <button class="btn-secondarySkip" onclick="skipToFinish()"
-        style="margin-top: 15px; background: transparent; border: 1px solid var(--subtext); color: var(--subtext); padding: 5px 15px; border-radius: 5px; cursor: pointer;">Skip</button>
-    <a href="../Home.html" class="gohome-btn">Go Home</a>
-
+    <script src="../script/theme.js"></script>
+    <script src="../script/auth.js"></script>
+    <script src="../script/ui.js"></script>
     <script src="../script/data.js"></script>
     <script src="../script/boxgame.js"></script>
 
 </body>
-
 </html>
