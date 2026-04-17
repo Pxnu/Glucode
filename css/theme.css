@@ -78,3 +78,53 @@ body.easter {
     --highlight: #ff69b4;
     --white: #fff9fb;
 }
+
+/* =========================================
+   Floating Theme Switcher (Icon Based)
+========================================= */
+.theme-switcher {
+    position: fixed;
+    bottom: 25px;
+    left: 25px; /* วางซ้ายล่าง เพื่อหลบ Popup ของ Achievement ขวาล่าง */
+    display: flex;
+    flex-direction: row; 
+    gap: 8px;
+    background: var(--box);
+    padding: 10px 15px;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    z-index: 9999;
+    border: 2px solid rgba(150, 150, 150, 0.15);
+    transition: background-color 0.3s;
+}
+
+.theme-switcher .theme-btn {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 50% !important;
+    border: none !important;
+    background: transparent !important;
+    color: var(--subtext) !important;
+    font-size: 1.3rem !important;
+    cursor: pointer !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.theme-switcher .theme-btn:hover {
+    background: var(--bg) !important;
+    color: var(--text) !important;
+    transform: scale(1.15) !important;
+}
+
+.theme-switcher .theme-btn.active {
+    background: var(--hover) !important;
+    color: white !important;
+    box-shadow: 0 5px 15px rgba(255, 117, 24, 0.4) !important;
+    transform: scale(1.1) !important;
+}
