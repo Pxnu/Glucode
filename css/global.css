@@ -12,14 +12,6 @@
 }
 
 /* =========================================
-   Theme Variables (ใช้ได้ทุกหน้า)
-========================================= */
-body.dark { --bg: #111; --box: #1a1a1a; --text: #eee; --subtext: #aaa; --btn: #fff; --btn-text: #111; --hover: #ffb347; }
-body.halloween { --bg: #1a0f0f; --box: #2b1a1a; --text: #ff7518; --subtext: #ffb347; --btn: #ff7518; --btn-text: #000; --hover: #e66a15; }
-body.winter { --bg: #e6f7ff; --box: #ffffff; --text: #0b3d91; --subtext: #5a8fd8; --btn: #0b3d91; --btn-text: #fff; --hover: #082b66; }
-body.easter { --bg: #fff0f6; --box: #ffffff; --text: #ff69b4; --subtext: #ffb6c1; --btn: #ff69b4; --btn-text: #fff; --hover: #e0529d; }
-
-/* =========================================
    Reset & Base Styles
 ========================================= */
 * {
@@ -33,14 +25,10 @@ body.easter { --bg: #fff0f6; --box: #ffffff; --text: #ff69b4; --subtext: #ffb6c1
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: var(--bg);
-    color: var(--text); /* ให้ตัวหนังสือเปลี่ยนสีตามธีมด้วย */
+    color: var(--text); 
     display: flex;
     flex-direction: column;
-    
-    /* ใช้ min-height เพื่อให้ยืดตามเนื้อหา หน้าที่ข้อมูลเยอะๆ จะได้เลื่อน scroll ได้ */
     min-height: 100vh; 
-    
-    /* เพิ่ม Transition เวลากดเปลี่ยนธีมจะได้ค่อยๆ เฟดสวยๆ */
     transition: background-color 0.3s ease, color 0.3s ease; 
 }
 

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Glucode - HTML Learning Game</title>
+<link rel="stylesheet" href="../css/theme.css">
 <link rel="stylesheet" href="../css/global.css">
 <link rel="stylesheet" href="../css/navbar.css">
 <link rel="stylesheet" href="../css/boxgame.css">
@@ -10,65 +11,41 @@
 
 <style>
     /* ==============================================================
-       แทรก CSS เฉพาะหน้านี้ เพื่อไม่ให้ไปยุ่งกับไฟล์ boxgame.css
+       แก้ปัญหา Navbar เป็นกล่องสีขาว (ล้างค่า CSS ที่ตีกัน)
     ============================================================== */
     
-    /* 1. บังคับให้หน้าเว็บเรียงจากบนลงล่าง Navbar จะได้ติดขอบบน (ทับคำสั่งเดิมของ Boxgame) */
+    /* 1. รีเซ็ตค่า .container ที่อยู่เฉพาะใน Navbar ให้กลับมาโปร่งใส */
+    nav .container {
+        background: transparent !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        max-width: 1440px !important;
+        margin: 0 auto !important;
+        padding: 2.25rem !important;
+        width: 100% !important;
+    }
+    
+    /* 2. บังคับให้ Navbar ดันขึ้นไปติดขอบบนสุดของจอ */
     body {
         justify-content: flex-start !important;
     }
-
-    /* 2. ดันกล่องเกมลงมาไม่ให้ชิด Navbar เกินไป */
-    .container {
-        margin-top: 40px; 
-    }
-
-    /* 3. สร้างคลาส nav-wrapper มาใช้แทน .container สำหรับ Navbar จะได้ไม่ตีกับกล่องเกม */
-    nav .nav-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        max-width: 1440px;
-        margin: 0 auto;
-        padding: 2.25rem;
-        box-sizing: border-box;
-    }
-    nav .nav-wrapper .logo a {
-        color: var(--text);
-        font-weight: bold;
-        font-size: 2rem;
-        text-decoration: none;
-    }
-    nav .nav-wrapper ul {
-        display: flex;
-        margin: 0;
-        padding: 0;
-    }
-    nav .nav-wrapper ul li {
-        margin: 0 1rem;
-    }
-    nav .nav-wrapper ul > li > a {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: var(--text);
-        text-decoration: none;
-        transition: transform 0.3s, color 0.3s;
-    }
-    nav .nav-wrapper ul > li > a:hover {
-        color: var(--hover);
+    
+    /* 3. ดันเฉพาะ "กล่องเกม" ให้เลื่อนลงมาไม่ให้โดน Navbar บัง */
+    .container:not(nav .container) {
+        margin-top: 50px !important;
     }
 </style>
 </head>
 
 <body>
 
-    <nav style="width: 100%;">
-        <div class="nav-wrapper">
+    <nav style="width: 100%; z-index: 100;">
+        <div class="container">
             <div class="logo">
-                <a href="../Glucode/Home.html">Glucode</a>
+                <a href="../Home.html" style="color: var(--text); font-weight: bold; font-size: 2rem; text-decoration: none;">Glucode</a>
             </div>
             <ul>
-              <li><a href="../Glucode/Home.html">Home</a></li>
+              <li><a href="../Home.html">Home</a></li>
               <li><a href="#">Learn</a></li>
               <li><a href="#">Leader Board</a></li>
             </ul>
@@ -90,7 +67,7 @@
         <div class="control-buttons">
             <button class="btn-secondaryDel" onclick="removeLast()">Delete</button>
             <button class="btn-secondaryRe" onclick="resetBoard()">&#10227;</button>
-            <button class="btn-secondarySkip" onclick="skipToFinish()" style="background: transparent; border: 2px solid var(--subtext); color: var(--subtext); padding: 8px 15px; margin-left: 5px; border-radius: 8px; cursor: pointer; font-size: 17px; font-weight: bold;">Skip</button>
+            <button class="btn-secondarySkip" onclick="skipToFinish()">Skip</button>
             <div id="scoreTitle"></div>
         </div>
 
@@ -102,7 +79,7 @@
             <button class="close-popup" onclick="closePopup()">×</button>
             <h2>🎉 ยินดีด้วย!</h2>
             <p>คุณเล่นจบครบทุกด่านแล้ว</p>
-            <p id="finalScoreText">Score: 0</p>
+            <p id="finalScoreText" style="font-weight: bold; color: var(--hover);">Score: 0</p>
             <div class="popup-buttons">
                 <button onclick="playAgain()">เล่นอีกครั้ง</button>
                 <button onclick="goHome()" class="goHome">กลับหน้าหลัก</button>

@@ -1,0 +1,80 @@
+/* =========================================
+   Glucode - Master Theme Styles
+   รวมตัวแปรสีสำหรับทุกหน้า (Global & BoxGame)
+========================================= */
+
+/* 1. Dark Theme */
+body.dark { 
+    /* สำหรับหน้า Global */
+    --bg: #111; 
+    --box: #1a1a1a; 
+    --text: #eee; 
+    --subtext: #aaa; 
+    --btn: #fff; 
+    --btn-text: #111; 
+    --hover: #ffb347; 
+
+    /* สำหรับหน้า BoxGame */
+    --base: #111;
+    --base-light: #1a1a1a;
+    --text-dark: #eee;
+    --highlight: #fff;
+    --white: #222;
+}
+
+/* 2. Halloween Theme */
+body.halloween { 
+    /* สำหรับหน้า Global */
+    --bg: #1a0f0f; 
+    --box: #2b1a1a; 
+    --text: #ff7518; 
+    --subtext: #ffb347; 
+    --btn: #ff7518; 
+    --btn-text: #000; 
+    --hover: #e66a15; 
+
+    /* สำหรับหน้า BoxGame */
+    --base: #1a0f0f;
+    --base-light: #2b1a1a;
+    --text-dark: #ff7518;
+    --highlight: #ff7518;
+    --white: #3d2626;
+}
+
+/* 3. Winter Theme */
+body.winter { 
+    /* สำหรับหน้า Global */
+    --bg: #e6f7ff; 
+    --box: #ffffff; 
+    --text: #0b3d91; 
+    --subtext: #5a8fd8; 
+    --btn: #0b3d91; 
+    --btn-text: #fff; 
+    --hover: #082b66; 
+
+    /* สำหรับหน้า BoxGame */
+    --base: #e6f7ff;
+    --base-light: #ffffff;
+    --text-dark: #0b3d91;
+    --highlight: #0b3d91;
+    --white: #f0faff;
+}
+
+/* 4. Easter Theme */
+body.easter { 
+    /* สำหรับหน้า Global */
+    --bg: #fff0f6; 
+    --box: #ffffff; 
+    --text: #ff69b4; 
+    --subtext: #ffb6c1; 
+    --btn: #ff69b4; 
+    --btn-text: #fff; 
+    --hover: #e0529d; 
+
+    /* สำหรับหน้า BoxGame */
+    --base: #fff0f6;
+    --base-light: #ffffff;
+    --text-dark: #ff69b4;
+    --highlight: #ff69b4;
+    --white: #fff9fb;
+}

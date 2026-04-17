@@ -1,68 +1,6 @@
 /* =========================================
-   BoxGame Styles & Theme Variables
+   BoxGame Base Variables (Light Mode Default)
 ========================================= */
-
-body.dark {
-    --base: #111;
-    --base-light: #1a1a1a;
-    --text-dark: #eee;
-    --highlight: #fff;
-    --subtext: #aaa;
-    --btn: #fff;
-    --btn-text: #111;
-    --white: #222;
-}
-
-body.halloween {
-    --base: #1a0f0f;
-    --base-light: #2b1a1a;
-    --text-dark: #ff7518;
-    --highlight: #ff7518;
-    --subtext: #ffb347;
-    --btn: #ff7518;
-    --btn-text: #000;
-    --white: #3d2626;
-}
-
-body.winter {
-    --base: #e6f7ff;
-    --base-light: #ffffff;
-    --text-dark: #0b3d91;
-    --highlight: #0b3d91;
-    --subtext: #5a8fd8;
-    --btn: #0b3d91;
-    --btn-text: #fff;
-    --white: #f0faff;
-}
-
-body.easter {
-    --base: #fff0f6;
-    --base-light: #ffffff;
-    --text-dark: #ff69b4;
-    --highlight: #ff69b4;
-    --subtext: #ffb6c1;
-    --btn: #ff69b4;
-    --btn-text: #fff;
-    --white: #fff9fb;
-}
-
-/* สไตล์สำหรับปุ่มเลือกธีมขวาบน */
-.theme-select-game {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    padding: 8px 12px;
-    border-radius: 50px;
-    background: var(--btn);
-    color: var(--btn-text);
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* ----------------------- */
 :root {
     --highlight: #222;
     --base: #ebebeb;
@@ -74,6 +12,9 @@ body.easter {
     --btn-text: #fff;
 }
 
+/* =========================================
+   Main Layout
+========================================= */
 body {
     background: var(--base);
     color: var(--text-dark);
@@ -83,11 +24,12 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* ดัน Navbar ให้อยู่บนสุด */
     align-items: center;
     transition: background-color 0.3s, color 0.3s;
 }
 
+/* 📌 แก้กลับมาใช้ .container แล้ว เกมจะไม่พัง! */
 .container {
     text-align: center;
     width: 100%;
@@ -98,6 +40,7 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
     position: relative;
     transition: background-color 0.3s;
+    margin-top: 40px; /* ดันกล่องเกมให้ห่างจาก Navbar */
 }
 
 #levelTitle {
@@ -184,6 +127,24 @@ h2 { margin-top: 10px; margin-bottom: 30px; }
     border: 2px solid transparent;
 }
 
+.btn-secondarySkip {
+    background: transparent; 
+    border: 2px solid var(--subtext); 
+    color: var(--subtext); 
+    padding: 8px 15px; 
+    margin-left: 5px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-size: 17px; 
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.btn-secondarySkip:hover {
+    background-color: var(--subtext);
+    color: white;
+}
+
 #result { margin-top: 10px; height: 30px; font-weight: bold; font-size: 1.1em; }
 
 #scoreTitle {
@@ -203,88 +164,90 @@ h2 { margin-top: 10px; margin-bottom: 30px; }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
 .block.add { animation: popIn 0.2s ease; }
 
+/* =========================================
+   Popup Overlay & Box (ดีไซน์กว้างสวยงาม)
+========================================= */
 .popup-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 9999;
 }
 
-/* =========================================
-   แก้ไข Popup Box ให้กว้างและสูงขึ้น
-========================================= */
 .popup-box {
     position: relative;
     background: var(--base-light);
     color: var(--text-dark);
-    padding: 50px 40px; /* เพิ่ม Padding ให้ข้างในโปร่งและสูงขึ้น */
-    border-radius: 24px; /* โค้งมนมากขึ้น */
+    padding: 60px 40px;
+    border-radius: 30px;
     text-align: center;
-    width: 100%;
-    max-width: 500px; /* ปรับให้กว้างขึ้น (ของเดิม 350px) */
-    min-height: 320px; /* บังคับความสูงขั้นต่ำ */
+    width: 90%;
+    max-width: 550px;
+    min-height: 350px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* จัดเนื้อหาให้อยู่ตรงกลางแนวตั้ง */
+    justify-content: center;
     align-items: center;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
     animation: popIn 0.25s ease;
 }
 
 .popup-box h2 {
-    font-size: 2.2rem; /* ขยายตัวอักษรหัวข้อ */
-    margin-top: 0;
-    margin-bottom: 15px;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
 }
 
 .popup-box p {
-    font-size: 1.2rem; /* ขยายตัวอักษรเนื้อหา */
-    margin-bottom: 10px;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
 }
 
-/* =========================================
-   แก้ไขปุ่ม Close (X) ให้สวยขึ้น
-========================================= */
 .close-popup {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 40px;
-    height: 40px;
+    top: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
     border: none;
-    background: rgba(0, 0, 0, 0.05); /* ทำพื้นหลังเทาอ่อนๆ รูปวงกลม */
-    border-radius: 50%; /* ทำให้เป็นวงกลม */
-    font-size: 22px;
-    font-weight: bold;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 50%;
+    font-size: 24px;
     cursor: pointer;
-    color: var(--subtext);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    transition: all 0.3s ease;
+    color: var(--subtext);
 }
 
-/* Effect เวลาเอาเมาส์ไปวางที่ปุ่มกากบาท */
 .close-popup:hover {
-    background-color: #ef4444; /* เปลี่ยนเป็นสีแดง */
-    color: white; /* เปลี่ยนตัว X เป็นสีขาว */
-    transform: scale(1.1); /* ขยายขึ้นนิดนึง */
+    background-color: #ef4444;
+    color: white;
+    transform: rotate(90deg) scale(1.1);
+}
+
+.popup-buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.popup-buttons button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
 }
 
 .goHome {
     background-color: var(--btn);
     color: var(--btn-text);
-    font-size: 1.25rem;
-}
-
-.gohome-btn{
-    margin-top: 30px;
-    color: var(--btn);
-    text-shadow: 0 0 20px var(--highlight);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 }
